@@ -19,6 +19,11 @@ export default function Navbar() {
     router.push("/auth/login"); 
   };
 
+  const handleBrandRedirect = () => {
+    router.push("/brand"); 
+  };
+
+
   const handleContactRedirect = () => {
     router.push("/contact"); 
   };
@@ -50,7 +55,9 @@ export default function Navbar() {
               </a>
             </li>
             <li>
-              <a className="hover:text-secondary transition-colors">
+              <a 
+                onClick={handleBrandRedirect}
+                className="hover:text-secondary transition-colors">
                 MARCAS
               </a>
             </li>
@@ -99,7 +106,9 @@ export default function Navbar() {
           className="block text-background hover:text-secondary transition-colors">
             INICIO
           </a>
-          <a className="block text-background hover:text-secondary transition-colors">
+          <a 
+            onClick={handleBrandRedirect}
+            className="block text-background hover:text-secondary transition-colors">
             MARCAS
           </a>
           <a 
