@@ -12,7 +12,8 @@
   --color-hover: #79b29971;
   --color-secondary: #EEDEC7;
   --color-black: #0000;
-
+  --color-card: #F3F3F3;
+  --color-border-card: #CACAC4;
   --font-titles: 'Brawler', serif;
   --font-info: "Asap Condensed", sans-serif;
 }
