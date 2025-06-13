@@ -13,23 +13,28 @@ export default function Navbar() {
 
   const handleHomeRedirect = () => {
     router.push("/home"); 
+    setIsMobileMenuOpen(false); 
   };
 
   const handleLoginRedirect = () => {
     router.push("/auth/login"); 
+    setIsMobileMenuOpen(false); 
   };
 
   const handleBrandRedirect = () => {
     router.push("/brand"); 
+    setIsMobileMenuOpen(false); 
   };
 
 
   const handleContactRedirect = () => {
     router.push("/contact"); 
+    setIsMobileMenuOpen(false); 
   };
 
   const handleFormRedirect = () => {
     router.push("/form"); 
+    setIsMobileMenuOpen(false); 
   };
 
   return (
@@ -50,28 +55,28 @@ export default function Navbar() {
             <li>
               <a 
                 onClick={handleHomeRedirect}
-                className="hover:text-secondary transition-colors">
+                className="hover:text-secondary transition-colors cursor-pointer">
                 INICIO
               </a>
             </li>
             <li>
               <a 
                 onClick={handleBrandRedirect}
-                className="hover:text-secondary transition-colors">
+                className="hover:text-secondary transition-colors cursor-pointer">
                 MARCAS
               </a>
             </li>
             <li>
               <a 
                 onClick={handleFormRedirect}
-                className="hover:text-secondary transition-colors">
+                className="hover:text-secondary transition-colors cursor-pointer">
                 SOLICITUD DE ALQUILER
               </a>
             </li>
             <li>
               <a 
                 onClick={handleContactRedirect}
-                className="hover:text-secondary transition-colors">
+                className="hover:text-secondary transition-colors cursor-pointer">
                 CONTÁCTANOS
               </a>
             </li>
@@ -103,22 +108,22 @@ export default function Navbar() {
         <div className="px-2 pt-2 pb-3 space-y-2 bg-primary">
           <a 
           onClick={handleHomeRedirect}
-          className="block text-background hover:text-secondary transition-colors">
+          className="block text-background hover:text-secondary transition-colors cursor-pointer">
             INICIO
           </a>
           <a 
             onClick={handleBrandRedirect}
-            className="block text-background hover:text-secondary transition-colors">
+            className="block text-background hover:text-secondary transition-colors cursor-pointer">
             MARCAS
           </a>
           <a 
             onClick={handleFormRedirect}
-            className="block text-background hover:text-secondary transition-colors">
+            className="block text-background hover:text-secondary transition-colors cursor-pointer">
             SOLICITUD DE ALQUILER
           </a>
           <a 
           onClick={handleContactRedirect}
-          className="block text-background hover:text-secondary transition-colors">
+          className="block text-background hover:text-secondary transition-colors cursor-pointer">
             CONTÁCTANOS
           </a>
           <button 
