@@ -25,6 +25,8 @@ export default function RequestForm() {
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
+
+  
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? checked : type === "file" ? files[0] : value,
@@ -34,13 +36,32 @@ export default function RequestForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validaciones en el correo y numero de telefono al enviar el formulario
+    if (!/^[^\s@]+@uca\.edu\.sv$/.test(formData.carnetUCA)) {
+       alert("Por favor, ingresa un correo electrónico con el dominio uca.edu.sv.");
+       return;
+}
+
+    if (!/^\d{8}$/.test(formData.telefono)) {
+      alert("El teléfono debe ser un número de 8 dígitos sin guiones.");
+      return;
+    }
+
     if (!formData.aceptoTerminos) {
       alert("Debes aceptar los términos y condiciones para continuar.");
       return;
     }
 
+    // Transformacion de la fecha a dd/mm/yy para que coincida con formato en la api
+  const formattedData = {
+    ...formData,
+    fechaNacimiento: formData.fechaNacimiento 
+      ? formData.fechaNacimiento.split("-").reverse().join("/")
+      : "",
+  };
+
     // Simulación para enviar los datos a la api 
-    console.log("Datos enviados:", formData);
+    console.log("Datos enviados:", formattedData);
 
     alert("Formulario enviado con éxito.");
     setFormData({
@@ -96,7 +117,7 @@ export default function RequestForm() {
             { label: "Sexo", name: "sexo", type: "select", options: ["Masculino", "Femenino"] },
             { label: "Fecha de nacimiento", name: "fechaNacimiento", type: "date" },
             { label: "Tipo de emprendedor", name: "tipoEmprendedor", type: "select", options: ["Individual", "Empresa"] },
-            { label: "Carnet UCA", name: "carnetUCA", type: "email", placeholder: "ej. 00117222@uca.edu.sv" },
+            { label: "Carnet UCA (favor colocar @uca.edu.sv)", name: "carnetUCA", type: "email", placeholder: "ej. 00117222@uca.edu.sv" },
             { label: "Facultad", name: "facultad", type: "select", options: ["Ingeniería", "Administración"] },
             { label: "Carrera", name: "carrera", type: "select", options: ["Ingeniería en Software", "Ingeniería Industrial"] },
           ].map((field) => (
