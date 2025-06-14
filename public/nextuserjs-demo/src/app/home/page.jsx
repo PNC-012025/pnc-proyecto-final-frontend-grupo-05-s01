@@ -4,6 +4,8 @@ import { MdOutlineApproval } from "react-icons/md";
 import { HiOutlineMailOpen } from "react-icons/hi";
 import { AiOutlineSolution } from "react-icons/ai";
 
+
+
 // Componente reutilizable para cada paso de la seccion de proceso de solicitud
 const Step = ({ Icon, text }) => {
   if (!Icon || typeof Icon !== "function") {
@@ -20,6 +22,8 @@ const Step = ({ Icon, text }) => {
 };
 
 export default function Home() {
+
+
   return (
     <main className="flex-grow">
       <section className="w-full">
@@ -128,12 +132,6 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="w-full flex justify-center mt-6">
-        <button className="
-        bg-secondary text-title font-info px-4 py-2 rounded-lg shadow hover:bg-title hover:text-background transition-colors">
-            VER MARCAS
-        </button>
-      </div>
 
     </div>
   </div>

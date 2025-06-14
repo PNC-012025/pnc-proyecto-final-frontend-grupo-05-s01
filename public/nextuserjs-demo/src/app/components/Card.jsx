@@ -17,7 +17,7 @@ const Card = ({ id, logo, brandName }) => {
         <h3 className="text-lg font-titles font-semibold text-center">{brandName}</h3>
         <button
           onClick={handleViewProducts} 
-          className="mt-4 bg-secondary hover:bg-title text-title hover:text-background font-info py-2 px-6 rounded-lg mx-auto text-sm"
+          className="mt-4 bg-secondary hover:bg-title text-title hover:text-background font-info py-2 px-6 rounded-lg mx-auto text-sm cursor-pointer"
         >
           Ver productos
         </button>

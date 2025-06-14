@@ -19,7 +19,7 @@ export default function ContactPage() {
               Para consultas puedes escribirnos a:{" "}
               <a
                 href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&to=centro.profesional@uca.edu.sv"
-                className="text-primary hover:text-secondary underline"
+                className="text-primary hover:text-title underline"
               >
                 centro.profesional@uca.edu.sv
               </a>{" "}
