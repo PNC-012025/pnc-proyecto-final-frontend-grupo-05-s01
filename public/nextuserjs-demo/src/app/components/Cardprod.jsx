@@ -9,9 +9,9 @@ const CardProd = ({ image, productName, productPrice, description }) => {
 
       {/* Contenedor para el texto: nombre del prod, precio, descripcion*/}
       <div className="flex-1 flex flex-col items-start justify-start pl-4">
-        <h3 className="text-lg font-titles font-bold">{productName}</h3>
-        <p className="text-sm text-foreground mt-2">{productPrice}</p>
-        <p className="text-sm text-foreground mt-2 w-full max-h-[100px] overflow-y-auto break-words">
+        <h3 className="text-lg font-titles text-title font-bold">{productName}</h3>
+        <p className="text-sm text-foreground font-info mt-2">{productPrice}</p>
+        <p className="text-sm font-info text-foreground mt-2 w-full max-h-[100px] overflow-y-auto break-words">
           {description}
         </p>
       </div>
