@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "Mercaduca",
   description: "Project for Mercaduca",
   icons: {
-    icon: "/logo.png", 
+    icon:"/logo.png", 
   },
 };
 
