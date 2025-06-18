@@ -80,7 +80,7 @@ export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
 
         <li>
           <Link
-            href="/perfil"
+            href="/myprofile"
             onClick={onClose}
             className="flex items-center space-x-3 hover:text-title transition-colors"
           >
