@@ -149,7 +149,7 @@ export default function RequestForm() {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: '❌ Ocurrió un error al enviar el formulario. Inténtalo de nuevo.',
+        text: error.message,
       });
     }
   };
