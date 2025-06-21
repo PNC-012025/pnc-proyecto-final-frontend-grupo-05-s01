@@ -7,7 +7,7 @@ import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { apiFetch } from '@/lib/api';
 
 const BrandPage = () => {
-  const { id } = useParams(); // Captura dinámica del ID
+  const { id } = useParams(); // Se envia el id  para que cargue los products de esa brand
   const [brandInfo, setBrandInfo] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -70,7 +70,7 @@ const BrandPage = () => {
         </div>
       </div>
 
-      {/* Catálogo de productos */}
+      {/* Lista de productos */}
       <h2 className="text-center font-titles text-title text-2xl font-bold mt-10 mb-4 uppercase tracking-wide">
         CATÁLOGO
       </h2>

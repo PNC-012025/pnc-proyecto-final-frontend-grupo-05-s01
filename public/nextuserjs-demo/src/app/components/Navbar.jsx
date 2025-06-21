@@ -38,7 +38,6 @@ export default function Navbar() {
   return (
     <nav className="bg-primary text-background font-info px-4 sm:px-6 py-4 w-full">
       <div className="max-w-screen-xl mx-auto flex flex-wrap justify-between items-center">
-        {/* Logo + nombre */}
         <div className="flex items-center flex-shrink-0 min-w-0">
           <img
             src="/mercalogo.png"
@@ -50,7 +49,7 @@ export default function Navbar() {
           </span>
         </div>
 
-        {/* Menú de escritorio (visible en lg en adelante) */}
+        {/*Para pantallas grandes */}
         <div className="hidden lg:flex items-center flex-wrap gap-6 mt-4 lg:mt-0">
           <ul className="flex flex-wrap gap-6 text-sm sm:text-base">
             <li>
@@ -82,7 +81,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Botón hamburguesa (visible en < lg) */}
+        {/* Uso de boton hamburguesa para panatallas medianas y pequeñas */}
         <div className="lg:hidden flex items-center ml-auto mt-4 lg:mt-0">
           <button
             onClick={toggleMobileMenu}
@@ -93,7 +92,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Menú móvil */}
+      {/* Menu movil */}
       <div
         className={`lg:hidden ${isMobileMenuOpen ? "block" : "hidden"} mt-4`}
         id="mobile-menu"

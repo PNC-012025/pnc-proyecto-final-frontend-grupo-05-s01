@@ -238,7 +238,7 @@ export default function RequestForm() {
           />
         ))}
 
-        {/* Logo */}
+        {/* Logo de la brand*/}
         <div>
           <label className="block text-sm font-medium text-foreground">Logo del emprendimiento:</label>
           <input
@@ -251,7 +251,7 @@ export default function RequestForm() {
           />
         </div>
 
-        {/* Términos */}
+        {/* "aceptar terms and conditions" */}
         <div className="flex items-center">
           <input
             type="checkbox"
@@ -265,7 +265,6 @@ export default function RequestForm() {
           </label>
         </div>
 
-        {/* Botón de enviar */}
         <div className="flex justify-center">
           <button
             type="submit"
