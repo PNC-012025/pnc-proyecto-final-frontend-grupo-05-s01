@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Asap+Condensed:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Brawler:wght@400;700&display=swap');
+
+
+
+@theme { 
+  --color-primary: #557051;
+  --color-background: #ffffff;
+  --color-foreground: #585B56;
+  --color-title: #314E2B;
+  --color-hover: #79b29971;
+  --color-secondary: #EEDEC7;
+  --color-black: #0000;
+  --color-card: #F3F3F3;
+  --color-border-card: #CACAC4;
+  --font-titles: 'Brawler', serif;
+  --font-info: "Asap Condensed", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ffffff;
+  }
+}
+
