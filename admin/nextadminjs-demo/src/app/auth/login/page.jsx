@@ -1,22 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { apiFetch } from '@/lib/api';
+import Swal from 'sweetalert2';
 
 export default function LoginPage() {
-  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
 
     const form = e.currentTarget;
     const email = form.email.value;
     const password = form.password.value;
 
     if (!email || !password) {
-      setError("Por favor, completa todos los campos.");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos incompletos',
+        text: 'Por favor, completa todos los campos.',
+      });
       return;
     }
 
@@ -26,9 +29,24 @@ export default function LoginPage() {
         body: JSON.stringify({ username: email, password }),
       });
 
-      window.location.href = '/home';
+      Swal.fire({
+        icon: 'success',
+        title: '¡Bienvenido!',
+        text: 'Inicio de sesión exitoso',
+        timer: 1500,
+        showConfirmButton: false
+      });
+
+      setTimeout(() => {
+        window.location.href = '/home';
+      }, 1500);
+      
     } catch (err) {
-      setError(err.message || 'Error inesperado al iniciar sesión');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al iniciar sesión',
+        text: err.message || 'Error inesperado al iniciar sesión',
+      });
     }
   };
 
@@ -53,10 +71,6 @@ export default function LoginPage() {
         </p>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
-          {error && (
-            <p className="text-title text-sm text-center">{error}</p>
-          )}
-
           <div>
             <label
               htmlFor="email"
@@ -69,7 +83,7 @@ export default function LoginPage() {
               id="email"
               name="email"
               placeholder="correo@correo.com"
-              className="w-full px-4 py-2 border font-info rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-background-secondary dark:text-white"
+              className="w-full px-4 py-2 border font-info rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               required
             />
           </div>
