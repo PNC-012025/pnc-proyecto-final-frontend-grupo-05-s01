@@ -1,194 +1,197 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from "react";
 
 const MyReStockProducts = () => {
-  const [products, setProducts] = useState([
-    { id: 1, name: '', price: '', description: '', category: '' },
-  ]);
-
   const [currentProduct, setCurrentProduct] = useState({
-    name: '',
-    price: '',
-    description: '',
-    category: '',
-    subcategory: ''
+    name: "",
+    price: "",
+    description: "",
+    stock: 1,
+    categoryid: "",
+    image: null,
+    previewImage: null
   });
 
-  const categories = [
-    { value: 'electronica', label: 'Electrónica' },
-    { value: 'alimentos', label: 'Alimentos' },
-    { value: 'ropa', label: 'Ropa' },
-    { value: 'hogar', label: 'Hogar' },
-  ];
-
-  const subcategories = {
-    electronica: ['TV', 'Audio', 'Computación'],
-    alimentos: ['Perecederos', 'No perecederos', 'Bebidas'],
-    ropa: ['Hombre', 'Mujer', 'Niños'],
-    hogar: ['Muebles', 'Decoración', 'Cocina'],
-  };
-
-  const handleAddProduct = () => {
-    if (currentProduct.name && currentProduct.price) {
-      setProducts([...products, { ...currentProduct, id: Date.now() }]);
-      setCurrentProduct({
-        name: '',
-        price: '',
-        description: '',
-        category: '',
-        subcategory: ''
-      });
-    }
-  };
-
-  const handleRemoveProduct = (id) => {
-    setProducts(products.filter(product => product.id !== id));
-  };
+  const [addedProducts, setAddedProducts] = useState([]);
+  const [categories, setCategories] = useState([
+    { id: 1, name: "Electrónica" },
+    { id: 2, name: "Alimentos" },
+    { id: 3, name: "Ropa" },
+    { id: 4, name: "Hogar" },
+  ]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setCurrentProduct(prev => ({
-      ...prev,
-      [name]: value,
-      ...(name === 'category' && { subcategory: '' })
-    }));
+    setCurrentProduct((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Productos a enviar:', products);
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const preview = URL.createObjectURL(file);
+      setCurrentProduct((prev) => ({ ...prev, image: file, previewImage: preview }));
+    }
+  };
+
+  const handleAddProduct = async () => {
+    const { name, price, description, stock, categoryid, image } = currentProduct;
+    if (!name || !price || !stock || !categoryid || !image) {
+      alert("Todos los campos son obligatorios.");
+      return;
+    }
+
+    const form = new FormData();
+    form.append("name", name);
+    form.append("price", price);
+    form.append("description", description);
+    form.append("stock", stock);
+    form.append("categoryid", categoryid);
+    form.append("image", image);
+
+    try {
+      const res = await fetch("http://localhost:8080/api/products", {
+        method: "POST",
+        credentials: "include",
+        body: form,
+      });
+
+      if (!res.ok) throw new Error("Error al crear producto");
+
+      alert("Producto agregado correctamente");
+      setAddedProducts((prev) => [...prev, currentProduct]);
+      setCurrentProduct({
+        name: "",
+        price: "",
+        description: "",
+        stock: 1,
+        categoryid: "",
+        image: null,
+        previewImage: null,
+      });
+    } catch (error) {
+      console.error("Error al agregar producto:", error);
+      alert("No se pudo agregar el producto");
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">FORMULARIO DE ENTREGA DE PRODUCTOS</h1>
-        
-        <div className="bg-yellow-50 border-l-4 border-green-800 p-4 mb-6">
-          <p className="text-yellow-700">
-            <strong>Recuerda:</strong> Cada vez que desees hacer renovación de stock, debes completar
-            previamente esta ficha de registro de productos y enviarla.
-          </p>
-          <p className="text-yellow-700 mt-2">
-            <strong>Se solicita llevar el producto etiquetado.</strong>
-          </p>
+    <div className="min-h-screen bg-white py-10 px-4">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-center text-2xl md:text-3xl text-green-900 font-bold mb-4 uppercase">
+          Formulario de Entrega de Productos
+        </h1>
+
+        <p className="text-center text-sm md:text-base text-gray-600 mb-6">
+          Recuerda: Cada vez que desees hacer renovación de stock, debes completar esta ficha de registro de productos y enviarla. <br />
+          <span className="font-semibold text-black">Se solicita llevar el producto etiquetado.</span>
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div>
+            <label className="block text-sm font-medium mb-1">Nombre del producto</label>
+            <input
+              name="name"
+              value={currentProduct.name}
+              onChange={handleInputChange}
+              className="w-full border p-2 rounded-md"
+              placeholder="Ej. Croissant"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Cantidad</label>
+            <input
+              type="number"
+              name="stock"
+              value={currentProduct.stock}
+              onChange={handleInputChange}
+              className="w-full border p-2 rounded-md"
+              min={1}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Precio</label>
+            <input
+              type="number"
+              name="price"
+              value={currentProduct.price}
+              onChange={handleInputChange}
+              className="w-full border p-2 rounded-md"
+              step="0.01"
+              min="0"
+            />
+          </div>
         </div>
 
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">DETALLES DE PRODUCTOS</h2>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nombre de producto</label>
-              <input
-                type="text"
-                name="name"
-                value={currentProduct.name}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Precio</label>
-              <input
-                type="text"
-                name="price"
-                value={currentProduct.price}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
-                placeholder="L. 0.00"
-                required
-              />
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div>
+            <label className="block text-sm font-medium mb-1">Detalle del producto</label>
+            <textarea
+              name="description"
+              value={currentProduct.description}
+              onChange={handleInputChange}
+              className="w-full border p-2 rounded-md"
+              rows={2}
+            />
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Descripción del producto</label>
-              <textarea
-                name="description"
-                value={currentProduct.description}
-                onChange={handleInputChange}
-                rows={2}
-                className="w-full p-2 border border-gray-300 rounded-md"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Categoría de los productos</label>
-              <select
-                name="category"
-                value={currentProduct.category}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
-                required
-              >
-                <option value="">Selecciona una categoría</option>
-                {categories.map((cat) => (
-                  <option key={cat.value} value={cat.value}>{cat.label}</option>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Categoría</label>
+            <select
+              name="categoryid"
+              value={currentProduct.categoryid}
+              onChange={handleInputChange}
+              className="w-full border p-2 rounded-md"
+            >
+              <option value="">Selecciona una categoría</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
+              ))}
+            </select>
           </div>
+        </div>
 
-          {currentProduct.category && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Subcategoría</label>
-              <select
-                name="subcategory"
-                value={currentProduct.subcategory}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
-                required
-              >
-                <option value="">Selecciona una subcategoría</option>
-                {subcategories[currentProduct.category]?.map((subcat) => (
-                  <option key={subcat} value={subcat}>{subcat}</option>
-                ))}
-              </select>
-              <p className="text-xs text-gray-500 mt-1">Selecciona exactamente</p>
-            </div>
+        <div className="mb-6">
+          <label className="block text-sm font-medium mb-1">Selecciona una imagen</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="block border p-2 rounded-md w-full"
+          />
+          {currentProduct.previewImage && (
+            <img
+              src={currentProduct.previewImage}
+              alt="Vista previa"
+              className="mt-4 w-32 h-32 object-cover rounded-md"
+            />
           )}
+        </div>
 
+        <div className="flex justify-center mb-10">
           <button
-            type="button"
             onClick={handleAddProduct}
-            className=" bg-secondary font-bold text-foreground px-4 py-2 rounded-md hover:bg-primary-dark transition"
+            className="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-dark transition"
           >
             AGREGAR PRODUCTO
           </button>
+        </div>
 
-          {/* all productos agregados */}
-          {products.length > 0 && (
-            <div className="mt-8">
-              <h3 className="text-lg font-semibold text-gray-700 mb-4">Productos Registrados</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {products.map((product, index) => (
-                  <div key={product.id} className="border rounded-lg p-4 relative">
-                    <button
-                      onClick={() => handleRemoveProduct(product.id)}
-                      className="absolute top-2 right-2 text-red-500 hover:text-red-700"
-                    >
-                      ×
-                    </button>
-                    <h4 className="font-medium">{product.name || `Producto ${index + 1}`}</h4>
-                    <p className="text-gray-600">{product.price ? `L. ${product.price}` : 'Precio no especificado'}</p>
-                    {product.category && (
-                      <p className="text-sm text-gray-500">{product.category} {product.subcategory && `> ${product.subcategory}`}</p>
-                    )}
-                  </div>
-                ))}
+        {addedProducts.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {addedProducts.map((prod, i) => (
+              <div key={i} className="border rounded-xl p-4 shadow text-center">
+                <img
+                  src={prod.previewImage}
+                  alt={prod.name}
+                  className="w-24 h-24 mx-auto mb-2 object-cover rounded"
+                />
+                <h3 className="font-bold text-lg mb-1">{prod.name}</h3>
+                <p className="text-sm text-gray-700">Precio: ${prod.price}</p>
+                <p className="text-sm text-gray-600 mt-1">{prod.description}</p>
               </div>
-            </div>
-          )}
-
-          <div className="flex justify-end mt-8">
-            
+            ))}
           </div>
-        </form>
+        )}
       </div>
     </div>
   );
