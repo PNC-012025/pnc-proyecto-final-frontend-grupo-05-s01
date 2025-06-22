@@ -31,7 +31,7 @@ export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
     { label: "Inicio", href: "/" },
     { label: "Re-stock", href: "/restock" },
     { label: "Talonarios", href: "/talonarios" },
-    { label: "Reglamento", href: "/reglamento" },
+    { label: "Reglamento", href: "./policies" },
   ];
 
   const userItems = [
