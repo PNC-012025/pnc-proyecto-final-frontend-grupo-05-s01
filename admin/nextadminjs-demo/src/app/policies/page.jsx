@@ -7,17 +7,30 @@ export default function Page() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
-       <div className="flex flex-col items-center space-y-10 md:col-span-2 mt-[52px]">
-          <ImageCard src="/ucamercaduca.png" alt="Stand with products" />
-          <ImageCard src="/peopleatmerca.jpeg" alt="Customer service" />
-          <ImageCard src="/standwithproducts.jpg" alt="Stand with products" />
-          <ImageCard src="/products.jpg" alt="Stand with products" />
-         
+        <div className="md:col-span-2 flex flex-col items-center md:mt-[52px]">
+          {/* Add responsive properties so in small screens just one image can be shown */}
+          <div className="block sm:hidden">
+            <ImageCard src="/ucamercaduca.png" alt="Stand with products" />
+          </div>
+
+          {/* In medium screens will be show two images side by side */}
+          <div className="hidden sm:flex md:hidden flex-row gap-6">
+            <ImageCard src="/ucamercaduca.png" alt="Stand with products" />
+            <ImageCard src="/peopleatmerca.jpeg" alt="Customer service" />
+          </div>
+
+          {/* In complete screens all images will be shown at left side column */}
+          <div className="hidden md:flex flex-col items-center space-y-10">
+            <ImageCard src="/ucamercaduca.png" alt="Stand with products" />
+            <ImageCard src="/peopleatmerca.jpeg" alt="Customer service" />
+            <ImageCard src="/standwithproducts.jpg" alt="Stand with products" />
+            <ImageCard src="/products.jpg" alt="Stand with products" />
+          </div>
         </div>
 
-        {/* Policy items */}
+        {/* item policies */}
         <div className="text-base leading-relaxed text-foreground font-info flex flex-col space-y-6 md:col-span-3">
-          <h1 className="text-2xl font-bold text-jusitfy text-title font-titles mb-5">REGLAMENTO</h1>
+          <h1 className="text-2xl font-bold text-title font-titles mb-5 text-center md:text-left">REGLAMENTO</h1>
 
           <ol className="list-decimal pl-5 space-y-3">
             <li>El emprendedor no podrá sobrepasar el espacio asignado ni interferir con productos o material publicitario.</li>
@@ -44,7 +57,7 @@ export default function Page() {
           </p>
 
           <div>
-            <h2 className="text-lg font-semibold mb-2 text-title font-titles">Terminación contrato adelantado</h2>
+            <h2 className="text-lg font-semibold mb-2 text-title font-titles text-center md:text-left">Terminación contrato adelantado</h2>
             <ol className="list-decimal pl-5 space-y-3 font-info text-foreground text-justify">
               <li>El emprendedor no cumple con las políticas establecidas.</li>
               <li>Abandono del espacio sin informar al Centro de Orientación.</li>
