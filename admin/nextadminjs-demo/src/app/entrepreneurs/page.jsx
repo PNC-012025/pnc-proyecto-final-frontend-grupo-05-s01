@@ -1,65 +1,39 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Entrepeneurcard from "../components/Entrepeneurcard";
 import { FaSearch } from "react-icons/fa";
-
-const data = [
-  {
-    id: 1,
-    logo: "/logo.png", 
-    brandName: "Sucrée",
-    responsible: "Jose Carlos Pérez Pérez",
-    carnet: "002004",
-    contact: "jsucre@uca.edu.sv",
-  },
-  {
-    id: 2,
-    logo: "/logo.png",
-    brandName: "Narcisa",
-    responsible: "Jose Carlos Pérez",
-    carnet: "002004",
-    contact: "jsucre@uca.edu.sv",
-  },
-  {
-    id: 3,
-    logo: "/logo.png",
-    brandName: "pao",
-    responsible: "Jose Carlos Pérez",
-    carnet: "002004",
-    contact: "jsucre@uca.edu.sv",
-  },
-  {
-    id: 4,
-    logo: "/logo.png",
-    brandName: "jesus",
-    responsible: "Jose Carlos Pérez",
-    carnet: "002004",
-    contact: "jsucre@uca.edu.sv",
-  },
-  {
-    id: 5,
-    logo: "/logo.png",
-    brandName: "francisco",
-    responsible: "Jose Carlos Pérez",
-    carnet: "002004",
-    contact: "jsucre@uca.edu.sv",
-  },
-  {
-    id: 6,
-    logo: "/logo.png",
-    brandName: "pao perez perez",
-    responsible: "Jose Carlos Pérez",
-    carnet: "002004",
-    contact: "jsucre@uca.edu.sv",
-  },
-];
+import { apiFetch } from '@/lib/api'
 
 const Page = () => {
+  const [brands, setBrands] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredData = data.filter((item) =>
-    item.brandName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    async function fetchBrands() {
+      try {
+        const data = await apiFetch('/admin/business/approved');
+        setBrands(data);
+      } catch (err) {
+        setError(err.message || 'Error al cargar los emprendimientos');
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchBrands();
+  }, []);
+
+ const filteredData = brands.filter(
+  (item) =>
+    item.businessName &&
+    item.businessName.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+if (loading) return <p>Cargando marcas aprobadas...</p>
+if (error) return <p className="text-red-500">{error}</p>
+
 
   return (
     <div className="container mx-auto p-4">
@@ -81,8 +55,16 @@ const Page = () => {
 
       {/* Cards founds*/}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {filteredData.map((item) => (
-          <Entrepeneurcard key={item.id} {...item} />
+        {filteredData.map((brand) => (
+          <Entrepeneurcard 
+          key={brand.id} 
+          id={brand.id} 
+          logo={brand.urlLogo}
+          brandName={brand.businessName}
+          responsible={brand.ownerFullName}
+          carnet={brand.ownerEmail}
+          career={brand.major}
+          />
         ))}
       </div>
     </div>
