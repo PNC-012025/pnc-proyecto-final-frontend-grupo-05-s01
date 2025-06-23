@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import { FaUserCircle } from "react-icons/fa";
 import { HiIdentification } from "react-icons/hi";
 import { GiGraduateCap } from "react-icons/gi";
@@ -11,7 +12,9 @@ const InfoRow = ({ icon: Icon, label }) => (
   </div>
 );
 
-const Entrepeneurcard = ({ logo, brandName, responsible, carnet, career }) => {
+const Entrepeneurcard = ({ id, logo, brandName, responsible, carnet, career }) => {
+  const router = useRouter();
+
   return (
     <div className="border rounded-xl p-4 bg-card border-border-card shadow-md flex flex-row w-full max-w-lg mx-auto items-center duration-300 hover:scale-105 hover:shadow-xl">
       <div className="w-1/3 flex justify-center">
@@ -32,6 +35,7 @@ const Entrepeneurcard = ({ logo, brandName, responsible, carnet, career }) => {
           <InfoRow icon={GiGraduateCap} label={`Carrera: ${career}`} />
         </div>
         <button
+          onClick={() => router.push(`/entrepreneurprofile/${id}`)}
           className="mt-4 bg-secondary text-title font-info px-4 py-1 rounded-lg self-end hover:bg-title hover:text-background transition text-sm"
         >
           VER MÁS
