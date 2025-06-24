@@ -69,13 +69,13 @@ const MyProfile = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h2 className="text-xl font-semibold text-gray-600">
+              <h2 className="text-titles font-semibold text-foreground uppercase">
                 {businessData.businessName || "Nombre de Marca"}
               </h2>
             </div>
             <button
               onClick={handleEditProfile}
-              className="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-dark transition"
+              className="bg-secondary text-title px-4 py-2 rounded-md hover:bg-title transition hover:text-background"
             >
               EDITAR PERFIL
             </button>

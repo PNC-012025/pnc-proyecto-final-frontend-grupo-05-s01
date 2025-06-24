@@ -5,11 +5,11 @@ import CardProd from "../components/Cardprod";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 const MyProducts = () => {
-  const [brandInfo, setBrandInfo] = useState({});
+  const [brandInfo, setBrandInfo] = useState(null);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const fetchProfileAndProducts = async () => {
+    const fetchBusinessAndProducts = async () => {
       try {
         const profileRes = await fetch("http://localhost:8080/api/business/profile", {
           method: "GET",
@@ -18,35 +18,48 @@ const MyProducts = () => {
 
         if (!profileRes.ok) throw new Error("Error al obtener perfil del emprendimiento");
 
-        const profileData = await profileRes.json();
-        setBrandInfo({
-          name: profileData.name || "Mi Emprendimiento",
-          description: profileData.description || "Sin descripción",
-          logo: profileData.urlLogo || "/user-default.png",
-          socialLinks: {
-            facebook: profileData.facebook || "#",
-            instagram: profileData.instagram || "#",
-          },
-        });
+        const profile = await profileRes.json();
+        const businessId = profile.id;
 
-        const productsRes = await fetch(`http://localhost:8080/api/products/business/${profileData.id}/approved`, {
+        //Obtener productos aprobados con ese ID
+        const productsRes = await fetch(`http://localhost:8080/api/products/business/${businessId}/approved`, {
           method: "GET",
           credentials: "include",
         });
 
         if (!productsRes.ok) throw new Error("Error al obtener productos aprobados");
 
-        const productsData = await productsRes.json();
-        setProducts(productsData);
-      } catch (error) {
-        console.error("Error cargando datos:", error);
+        const data = await productsRes.json();
+
+        setBrandInfo({
+          name: data.businessName || "Mi Emprendimiento",
+          description: data.description || "Sin descripción",
+          logo: data.urlLogo || "/user-default.png",
+          socialLinks: {
+            facebook: data.facebook || "#",
+            instagram: data.instagram || "#",
+          },
+        });
+
+
+        const formattedProducts = (data.approvedProducts || []).map((p) => ({
+          id: p.id,
+          name: p.name,
+          description: p.description,
+          image: p.urlImage,
+          price: p.price?.price ?? 0,
+        }));
+
+        setProducts(formattedProducts);
+      } catch (err) {
+        console.error("Error:", err);
       }
     };
 
-    fetchProfileAndProducts();
+    fetchBusinessAndProducts();
   }, []);
 
-  if (!brandInfo.name) return <p>Cargando...</p>;
+  if (!brandInfo) return <p className="text-center mt-20">Cargando...</p>;
 
   return (
     <div className="px-4 lg:px-8 py-10 bg-background">
@@ -84,6 +97,7 @@ const MyProducts = () => {
               productName={product.name}
               productPrice={`$${product.price}`}
               description={product.description}
+              linkTo={`/products-restock/${product.id}`}
             />
           ))
         ) : (
