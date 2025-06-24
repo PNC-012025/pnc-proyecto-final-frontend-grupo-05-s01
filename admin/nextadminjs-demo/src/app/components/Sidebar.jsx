@@ -28,7 +28,7 @@ const icons = {
 
 export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
   const commonItems = [
-    { label: "Inicio", href: "/" },
+    { label: "Inicio", href: "/home" },
     { label: "Re-stock", href: "/restock" },
     { label: "Talonarios", href: "/talonarios" },
     { label: "Reglamento", href: "./policies" },
@@ -41,10 +41,14 @@ export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
 
   const adminItems = [
     { label: "Solicitudes", href: "/solicitudes" },
-    { label: "Emprendedores", href: "/emprendedores" },
+    { label: "Emprendedores", href: "/entrepreneurs" },
   ];
 
-  const menuItems = [...commonItems, ...(role === "user" ? userItems : adminItems)];
+  const menuItems = [
+    ...commonItems, 
+    ...(role === "ROLE_EMPRENDEDOR" ? userItems : []),
+    ...(role === "ROLE_ADMIN" ? adminItems : []),
+];
 
   return (
     <div
