@@ -1,9 +1,9 @@
 "use client";
 
-import Home from "./home/page";
+import Login from "../app/auth/login/page";
 
 export default function MainPage() {
   return (
-      <Home />
+      <Login />
   );
 }
