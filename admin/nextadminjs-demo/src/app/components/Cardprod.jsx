@@ -1,21 +1,28 @@
+"use client";
+
 import React from "react";
+import Link from "next/link";
 
-const CardProd = ({ image, productName, productPrice, description }) => {
+const CardProd = ({ image, productName, productPrice, description, linkTo }) => {
   return (
-    <div className="flex border rounded-2xl border-border-card shadow-xl p-4 w-full max-w-[400px] mx-auto bg-card">
-      <div className="w-[150px] h-[163px] flex-shrink-0 flex items-center justify-center rounded-lg overflow-hidden bg-card">
-        <img src={image} alt={productName} className="h-full w-full object-cover" />
-      </div>
+    <Link href={linkTo}>
+      <div className="flex bg-white border rounded-xl shadow hover:shadow-lg transition-shadow duration-300 cursor-pointer overflow-hidden">
+        {/* Imagen del producto */}
+        <div className="w-32 h-32 flex-shrink-0">
+          <img
+            src={image}
+            alt={productName}
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-      {/* Contenedor para el texto: nombre del prod, precio, descripcion*/}
-      <div className="flex-1 flex flex-col items-start justify-start pl-4">
-        <h3 className="text-lg font-titles text-title font-bold">{productName}</h3>
-        <p className="text-sm text-foreground font-info mt-2">{productPrice}</p>
-        <p className="text-sm font-info text-foreground mt-2 w-full max-h-[100px] overflow-y-auto break-words">
-          {description}
-        </p>
+        <div className="flex flex-col justify-center px-4 py-2 text-left">
+          <h3 className="text-lg font-semibold text-title truncate">{productName}</h3>
+          <p className="text-sm text-gray-600 mt-1">{description}</p>
+          <p className="mt-2 text-sm font-medium text-green-700">{productPrice}</p>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

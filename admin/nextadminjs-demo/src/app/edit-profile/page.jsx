@@ -199,7 +199,7 @@ const EditProfile = () => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className=" bg-secondary font-bold text-foreground px-8 py-3 rounded-lg hover:bg-gray-300 transition"
+              className=" bg-secondary font-bold text-foreground px-8 py-3 rounded-lg hover:bg-title transition hover:text-background"
             >
               GUARDAR CAMBIOS
             </button>
