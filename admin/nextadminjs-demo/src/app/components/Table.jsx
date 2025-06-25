@@ -25,7 +25,7 @@ const ContractPaymentTable = ({ contract, isAdmin = false }) => {
 
       <div className="overflow-x-auto">
         <table className="w-full table-auto border border-gray-200 text-sm">
-          <thead className="bg-blue-100">
+          <thead className="bg-title text-amber-50">
             <tr>
               {isAdmin && <th className="px-4 py-2 border">✔</th>}
               <th className="px-4 py-2 border">#</th>
