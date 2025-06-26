@@ -12,13 +12,31 @@ const Page = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
+  const [filter2, setFilter2] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  useEffect(() => {
+   useEffect(() => {
     async function fetchBrands() {
       try {
-        const data = await apiFetch('/admin/business/approved');
+        const queryParams = new URLSearchParams();
+
+        // Filtro de estado: ACTIVO / INACTIVO
+        if (filter2) {
+          queryParams.append("statuses", filter2);
+        }
+
+        // Filtro de contrato: true / false
+        if (filter === "true" || filter === "false") {
+          queryParams.append("tienenContrato", filter);
+        }
+
+        const queryString = queryParams.toString();
+        const endpoint = queryString
+          ? `/admin/business/approved?${queryString}`
+          : `/admin/business/approved`;
+
+        const data = await apiFetch(endpoint);
         setBrands(data);
       } catch (err) {
         setError(err.message || 'Error al cargar los emprendimientos');
@@ -26,8 +44,9 @@ const Page = () => {
         setLoading(false);
       }
     }
+
     fetchBrands();
-  }, []);
+  }, [filter, filter2]); 
 
  const filteredData = brands.filter(
   (item) =>
@@ -49,43 +68,58 @@ if (error) return <p className="text-red-500">{error}</p>
         Revisa el estado de los emprendedores y sus talonarios
       </h1>
 
-    
-      {/* Searh bar: it filters for brand name */}
-      <div className="relative mb-4">
-       <div className="mx-auto w-full max-w-md relative text-foreground">
-        <input
-          type="text"
-          placeholder="Buscar marcas"
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setCurrentPage(1);
-          }}
-          className="border rounded-full px-4 py-2 pr-10 w-full max-w-md shadow-md focus:outline-none focus:ring-0 text-foreground font-info"
-        />
-        <FaSearch className="absolute right-4 top-1/2 transform -translate-y-1/2 text-foreground" />
-      </div>
-
-      {/* Filter dropdown */}
-   <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-28">
-    <select
-      value={filter}
+  <div className="mb-4 w-full flex flex-col items-center gap-4">
+  {/* Search input */}
+  <div className="relative w-full max-w-md text-foreground">
+    <input
+      type="text"
+      placeholder="Buscar marcas"
+      value={searchTerm}
       onChange={(e) => {
-        setFilter(e.target.value);
-         setCurrentPage(1);
+        setSearchTerm(e.target.value);
+        setCurrentPage(1);
       }}
-      className="appearance-none border rounded-full pl-3 pr-8 py-2 w-full shadow-md focus:outline-none focus:ring-0 text-foreground font-info"
-    >
-      <option value="">Todos</option>
-      <option value="Ingeniería Informática">Ingeniería Informática</option>
-      <option value="Carrera 2">Carrera 2</option>
-      <option value="Carrera 12">Carrera 12</option>
-    </select>
-    <FaChevronDown className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2" />
+      className="border rounded-full px-4 py-2 pr-10 w-full shadow-md focus:outline-none focus:ring-0 text-foreground font-info"
+    />
+    <FaSearch className="absolute right-4 top-1/2 transform -translate-y-1/2 text-foreground" />
+  </div>
+
+  {/* Filter dropdowns */}
+  <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full max-w-md">
+    <div className="relative w-full">
+      <select
+        value={filter}
+        onChange={(e) => {
+          setFilter(e.target.value);
+          setCurrentPage(1);
+        }}
+        className="appearance-none border rounded-full pl-3 pr-8 py-2 w-full shadow-md focus:outline-none focus:ring-0 text-foreground font-info"
+      >
+        <option value="">Todos</option>
+        <option value="true">Con contrato</option>
+        <option value="false">Sin contrato</option>
+      </select>
+      <FaChevronDown className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2" />
+    </div>
+
+    <div className="relative w-full">
+      <select
+        value={filter2}
+        onChange={(e) => {
+          setFilter2(e.target.value);
+          setCurrentPage(1);
+        }}
+        className="appearance-none border rounded-full pl-3 pr-8 py-2 w-full shadow-md focus:outline-none focus:ring-0 text-foreground font-info"
+      >
+        <option value="">Todos</option>
+        <option value="ACTIVO">Activo</option>
+        <option value="INACTIVO">Inactivo</option>
+      </select>
+      <FaChevronDown className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2" />
+    </div>
   </div>
 </div>
-   
-    
+
 
       {/* Cards founds*/}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">
