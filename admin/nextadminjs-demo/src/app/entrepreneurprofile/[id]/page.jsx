@@ -62,8 +62,7 @@ useEffect(() => {
   if (
   entrepreneur.startDate == null ||
   entrepreneur.endDate == null ||
-  entrepreneur.kindOfPayment == null ||
-  entrepreneur.paymentMethod == null
+  entrepreneur.kindOfPayment == null 
   ) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh]">
