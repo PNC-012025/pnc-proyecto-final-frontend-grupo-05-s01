@@ -15,9 +15,13 @@ const InfoRow = ({ icon: Icon, label }) => (
 const Entrepeneurcard = ({ id, logo, brandName, responsible, carnet, career }) => {
   const router = useRouter();
 
-  const handleViewContract = () => {
-  router.push(`/entrepreneurprofile/${id}`);
-};
+  const handleViewProfile = () => {
+    router.push(`/entrepreneurprofile/${id}`);
+  };
+
+  const handleViewTalonario = () => {
+    router.push(`/talonarios/${id}`); 
+  };
 
   return (
     <div className="border rounded-xl p-4 bg-card border-border-card shadow-md flex flex-row w-full max-w-lg mx-auto items-center duration-300 hover:scale-105 hover:shadow-xl">
@@ -38,12 +42,20 @@ const Entrepeneurcard = ({ id, logo, brandName, responsible, carnet, career }) =
           <InfoRow icon={HiIdentification} label={`Carnet: ${carnet}`} />
           <InfoRow icon={GiGraduateCap} label={`Carrera: ${career}`} />
         </div>
-        <button
-          onClick={handleViewContract}
-          className="mt-4 bg-secondary text-title font-info px-4 py-1 rounded-lg self-end hover:bg-title hover:text-background transition text-sm"
-        >
-          VER MÁS
-        </button>
+        <div className="flex justify-between mt-4 gap-2">
+          <button
+            onClick={handleViewProfile}
+            className="bg-secondary text-title font-info px-3 py-1 rounded-lg hover:bg-title hover:text-background transition text-sm"
+          >
+            VER MÁS
+          </button>
+          <button
+            onClick={handleViewTalonario}
+            className="bg-primary text-white font-info px-3 py-1 rounded-lg hover:bg-secondary hover:text-title transition text-sm"
+          >
+            TALONARIO
+          </button>
+        </div>
       </div>
     </div>
   );
