@@ -2,10 +2,12 @@
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { apiFetch } from '@/lib/api'
+import { apiFetch } from '@/lib/api';
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const { id } = useParams();
+  const router = useRouter();
   const [entrepreneur, setEntrepreneur] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -69,9 +71,9 @@ const Page = () => {
   }*/
 
   if (
-  entrepreneur.startDate == null ||
-  entrepreneur.endDate == null ||
-  entrepreneur.kindOfPayment == null ||
+  entrepreneur.startDate == null &&
+  entrepreneur.endDate == null &&
+  entrepreneur.kindOfPayment == null &&
   entrepreneur.paymentMethod == null
   ) {
   return (
@@ -86,9 +88,7 @@ const Page = () => {
       </p>
       <button
         className="mt-4 bg-secondary text-title font-info px-4 py-1 rounded-lg hover:bg-title hover:text-background transition text-sm"
-        onClick={() => {
-          console.log("Crear contrato clicado");
-        }}
+        onClick={() => router.push(`/createcontract/${id}`)}
       >
         CREAR CONTRATO
       </button>
