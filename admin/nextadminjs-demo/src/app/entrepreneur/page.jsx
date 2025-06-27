@@ -24,7 +24,7 @@ const EntrepreneurCard = ({
   };
 
   const stopPropagation = (e) => {
-    e.stopPropagation(); // evita que el click en botones dispare el redireccionamiento
+    e.stopPropagation();
   };
 
   return (
