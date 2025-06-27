@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { FaCheck, FaTimes, FaSortUp, FaSortDown } from "react-icons/fa";
 import { apiFetch } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 const EntrepreneurCard = ({
+  id,
   projectName,
   name,
   carnet,
@@ -14,46 +16,61 @@ const EntrepreneurCard = ({
   onReject,
   showActions = true,
   isLoading = false,
-}) => (
-  <div className="bg-card rounded-xl shadow-md p-4 flex justify-between items-center w-full">
-    <div>
-      <h3 className="font-bold text-lg text-title">{projectName}</h3>
-      <p className="text-sm font-info text-foreground">Nombre: {name}</p>
-      <p className="text-sm font-info text-foreground">Carnet: {carnet}</p>
-      <p className="text-sm font-info text-foreground">Carrera: {career}</p>
-    </div>
-    {showActions ? (
-      <div className="flex gap-4">
-        <button
-          onClick={onApprove}
-          disabled={isLoading}
-          className={`bg-green-800 hover:bg-green-600 text-white p-3 rounded-md transition ${
-            isLoading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          <FaCheck className="text-lg" />
-        </button>
-        <button
-          onClick={onReject}
-          disabled={isLoading}
-          className={`bg-red-400 hover:bg-red-800 text-white p-3 rounded-md transition ${
-            isLoading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          <FaTimes className="text-lg" />
-        </button>
+}) => {
+  const router = useRouter();
+
+  const handleCardClick = () => {
+    router.push(`/entrepreneurform/${id}`);
+  };
+
+  const stopPropagation = (e) => {
+    e.stopPropagation(); // evita que el click en botones dispare el redireccionamiento
+  };
+
+  return (
+    <div
+      onClick={handleCardClick}
+      className="bg-card rounded-xl shadow-md p-4 flex justify-between items-center w-full cursor-pointer hover:shadow-lg transition"
+    >
+      <div>
+        <h3 className="font-bold text-lg text-title">{projectName}</h3>
+        <p className="text-sm font-info text-foreground">Nombre: {name}</p>
+        <p className="text-sm font-info text-foreground">Carnet: {carnet}</p>
+        <p className="text-sm font-info text-foreground">Carrera: {career}</p>
       </div>
-    ) : (
-      <span
-        className={`px-4 py-2 text-white text-sm font-bold rounded-md ${
-          status === "APROBADO" ? "bg-green-700" : "bg-red-500"
-        }`}
-      >
-        {status}
-      </span>
-    )}
-  </div>
-);
+      {showActions ? (
+        <div className="flex gap-4" onClick={stopPropagation}>
+          <button
+            onClick={onApprove}
+            disabled={isLoading}
+            className={`bg-green-800 hover:bg-green-600 text-white p-3 rounded-md transition ${
+              isLoading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
+            <FaCheck className="text-lg" />
+          </button>
+          <button
+            onClick={onReject}
+            disabled={isLoading}
+            className={`bg-red-400 hover:bg-red-800 text-white p-3 rounded-md transition ${
+              isLoading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
+            <FaTimes className="text-lg" />
+          </button>
+        </div>
+      ) : (
+        <span
+          className={`px-4 py-2 text-white text-sm font-bold rounded-md ${
+            status === "APROBADO" ? "bg-green-700" : "bg-red-500"
+          }`}
+        >
+          {status}
+        </span>
+      )}
+    </div>
+  );
+};
 
 export default function ApplicantsList() {
   const [entrepreneurs, setEntrepreneurs] = useState([]);
@@ -63,7 +80,7 @@ export default function ApplicantsList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [sortDirection, setSortDirection] = useState("desc");
-  const [loadingId, setLoadingId] = useState(null); 
+  const [loadingId, setLoadingId] = useState(null);
 
   const statusMap = {
     PENDIENTES: "PENDIENTE",
@@ -194,6 +211,7 @@ export default function ApplicantsList() {
             {entrepreneurs.map((e) => (
               <EntrepreneurCard
                 key={e.id}
+                id={e.id}
                 projectName={e.businessName}
                 name={`${e.userName} ${e.userLastName}`}
                 carnet={e.userEmail}
