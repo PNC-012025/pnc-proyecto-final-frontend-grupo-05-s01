@@ -137,7 +137,7 @@ export default function ApplicantsList() {
 
   return (
     <section className="py-10 px-6">
-      <h2 className="text-3xl font-titles font-bold mb-2 text-center">
+      <h2 className="text-center text-2xl font-titles text-title font-bold mb-6 mt-4">
         REVISA LAS NUEVOS POSIBLES EMPRENDEDORES!
       </h2>
       <p className="text-center text-sm text-gray-700 mb-6">
