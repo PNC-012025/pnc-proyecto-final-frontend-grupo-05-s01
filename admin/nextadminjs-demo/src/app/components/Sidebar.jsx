@@ -30,7 +30,7 @@ export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
   const commonItems = [
     { label: "Inicio", href: "/home" },
     { label: "Re-stock", href: "/restock" },
-    { label: "Talonarios", href: "/talonarios" },
+    { label: "Talonarios", href: "/talonario" },
     { label: "Reglamento", href: "./policies" },
   ];
 
