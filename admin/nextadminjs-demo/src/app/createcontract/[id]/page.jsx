@@ -18,7 +18,6 @@ export default function CrearContrato() {
   const [paymentFrequencies, setPaymentFrequencies] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Cargar métodos de pago y frecuencias
   useEffect(() => {
     const fetchPaymentData = async () => {
       try {
