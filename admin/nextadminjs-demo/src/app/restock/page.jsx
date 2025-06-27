@@ -14,7 +14,7 @@ const RestockForm = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/categories");
+        const res = await fetch("http://localhost:8082/api/categories");
         const data = await res.json();
         setCategories(data);
       } catch (err) {
@@ -41,7 +41,7 @@ const RestockForm = () => {
     formData.append("categoryid", categoryId);
 
     try {
-      const res = await fetch("http://localhost:8080/api/products", {
+      const res = await fetch("http://localhost:8082/api/products", {
         method: "POST",
         body: formData,
         credentials: "include",

@@ -137,7 +137,7 @@ export default function CrearContrato() {
         className={`w-full py-2 rounded ${
           !isFormValid() || isSubmitting
             ? "bg-gray-400 cursor-not-allowed"
-            : "bg-secondary hover:bg-title text-white"
+            : "mt-4 bg-secondary text-title font-info px-4 py-1 rounded-lg hover:bg-title hover:text-background transition text-sm"
         }`}
       >
         {isSubmitting ? "Enviando..." : "Enviar"}
