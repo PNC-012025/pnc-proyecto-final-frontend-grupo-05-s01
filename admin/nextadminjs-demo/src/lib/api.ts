@@ -21,7 +21,6 @@ export async function apiFetch<T>(
   }
 
   if (!isFormData) {
-
     headers['Content-Type'] = 'application/json';
   }
 
@@ -38,12 +37,18 @@ export async function apiFetch<T>(
     try {
       const parsed = JSON.parse(error);
       message = parsed.message || message;
-    } catch (_) {}
+    } catch (_) {
+      message = error;
+    }
     throw new Error(message);
   }
 
+  const contentType = res.headers.get("content-type") || "";
   const text = await res.text();
 
-  return text ? JSON.parse(text) : ({} as T);
-  
+  if (contentType.includes("application/json")) {
+    return text ? JSON.parse(text) : ({} as T);
+  }
+
+  return text as T;
 }
