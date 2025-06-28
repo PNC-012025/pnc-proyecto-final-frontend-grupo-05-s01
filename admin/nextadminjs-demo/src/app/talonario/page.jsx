@@ -3,10 +3,13 @@
 import React, { useEffect, useState } from "react";
 import Table from "../components/Table";
 import { apiFetch } from "@/lib/api";
+import Spinner from "../components/Spinner";
 
 const MyPayments = () => {
   const [contract, setContract] = useState(null);
   const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,13 +21,29 @@ const MyPayments = () => {
         setPayments(paymentData);
       } catch (err) {
         console.error("Error al obtener datos:", err);
+      }finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
+   if (loading) return <Spinner />;
 
-  if (!contract) return <p className="text-center mt-10">Cargando contrato...</p>;
+  if (error)
+    return (
+      <p className="text-center text-red-500 mt-20">
+        {error}
+      </p>
+    );
+
+  if (!contract)
+    return (
+      <p className="text-center mt-20">
+        No se encontró el talonario
+      </p>
+    );
+
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-background">

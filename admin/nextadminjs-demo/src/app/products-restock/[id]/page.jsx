@@ -4,12 +4,17 @@ import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { apiFetch } from "@/lib/api";
+import Spinner from "../../components/Spinner";
 
 const RestockProduct = () => {
   const { id: productId } = useParams();
   const router = useRouter();
 
   const [product, setProduct] = useState(null);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   const [updatedData, setUpdatedData] = useState({
     description: "",
     stock: 1,
@@ -30,11 +35,19 @@ const RestockProduct = () => {
         }));
       } catch (error) {
         console.error("Error al cargar producto:", error);
+         setError("No se pudo cargar el producto.");
+      }finally {
+        setLoading(false);
       }
     };
 
     fetchProduct();
   }, [productId]);
+
+  if (loading) return <Spinner />;
+  if (error)   return <p className="text-center text-red-500 mt-20">{error}</p>;
+  if (!product) return <p className="text-center mt-20">Producto no encontrado.</p>;
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

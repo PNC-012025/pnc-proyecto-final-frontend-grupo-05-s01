@@ -38,7 +38,7 @@ export async function apiFetch<T>(
     try {
       const parsed = JSON.parse(error);
       message = parsed.message || message;
-    } catch (_) {}
+    } catch {}
     throw new Error(message);
   }
 

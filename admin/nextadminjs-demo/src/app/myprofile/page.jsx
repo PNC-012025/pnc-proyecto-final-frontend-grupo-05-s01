@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api";
+import Spinner from "../components/Spinner";
 
 const MyProfile = () => {
   const router = useRouter();
@@ -30,18 +31,13 @@ const MyProfile = () => {
     fetchBusinessProfile();
   }, []);
 
-  if (loading)
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        Cargando perfil del negocio...
-      </div>
-    );
+  if (loading) return <Spinner />;
 
   if (error)
     return (
-      <div className="text-center mt-10 text-red-500">
+      <p className="text-center text-red-500 mt-20">
         {error}
-      </div>
+      </p>
     );
 
   if (!businessData)

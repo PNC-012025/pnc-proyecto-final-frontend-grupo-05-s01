@@ -38,7 +38,8 @@ export function middleware(req: NextRequest) {
       '/entrepreneurs',
       '/solicitudes',
       '/admin/talonario',
-      '/admin/products'
+      '/admin/products',
+      '/aproverestock'
     ];
 
     if (ENTREPRENEUR_ROUTES.some((r) => pathname.startsWith(r)) && !isEntrepreneur) {

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import CardProd from "../components/Cardprod";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { apiFetch } from "@/lib/api";
+import Spinner from "../components/Spinner";
 
 const MyProducts = () => {
   const [brandInfo, setBrandInfo] = useState(null);
@@ -50,9 +51,21 @@ const MyProducts = () => {
     fetchBusinessAndProducts();
   }, []);
 
-  if (loading) return <p className="text-center mt-20">Cargando...</p>;
-  if (error) return <p className="text-center text-red-500 mt-20">{error}</p>;
-  if (!brandInfo) return <p className="text-center mt-20">No se encontró información del negocio.</p>;
+  if (loading) return <Spinner />;
+
+  if (error)
+    return (
+      <p className="text-center text-red-500 mt-20">
+        {error}
+      </p>
+    );
+
+  if (!brandInfo)
+    return (
+      <p className="text-center mt-20">
+        No se encontró información del negocio.
+      </p>
+    );
 
   return (
     <div className="px-4 lg:px-8 py-10 bg-background">

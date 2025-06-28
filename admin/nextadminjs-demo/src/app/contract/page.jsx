@@ -1,27 +1,34 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { apiFetch } from "@/lib/api"; // Asegúrate de que esté bien importado
+import { apiFetch } from "@/lib/api";
+import Spinner from "../components/Spinner";
 
 const ContractView = () => {
   const [contract, setContract] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchContract = async () => {
+        setLoading(true); 
       try {
         const data = await apiFetch("/contract/me");
         setContract(data);
       } catch (err) {
         console.error("Error al cargar contrato:", err);
+      }finally {
+        setLoading(false);
       }
     };
 
     fetchContract();
   }, []);
 
-  if (!contract) {
-    return <p className="text-center mt-10">Cargando contrato...</p>;
-  }
+  if (loading) return <Spinner />;
+  if (error)   return <p className="text-center text-red-500 mt-20">{error}</p>;
+  if (!contract) return <p className="text-center mt-20">Producto no encontrado.</p>;
+
 
   return (
     <div className="min-h-screen bg-background py-10 px-4 flex justify-center">

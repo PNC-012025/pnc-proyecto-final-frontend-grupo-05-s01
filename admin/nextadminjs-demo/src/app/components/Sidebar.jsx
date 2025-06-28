@@ -16,7 +16,7 @@ import {
 const icons = {
   Inicio: <FaHome />,
   "Mis productos": <FaBoxOpen />,
-  "Re-stock": <FaStore />,
+  "Crear producto": <FaStore />,
   Contrato: <FaFileAlt />,
   Talonarios: <FaMoneyCheckAlt />,
   Reglamento: <FaExclamationCircle />,
@@ -29,7 +29,6 @@ const icons = {
 export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
   const commonItems = [
     { label: "Inicio", href: "/home" },
-    { label: "Re-stock", href: "/approverestock" },
     { label: "Reglamento", href: "./policies" },
   ];
 
@@ -38,6 +37,7 @@ export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
     { label: "Mi perfil", href: "/myprofile" },
     { label: "Mis productos", href: "/my-products" },
     { label: "Contrato", href: "/contract" },
+    { label: "Crear producto", href: "/restock" },
   ];
 
   const adminItems = [
