@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import CardProd from "../../components/Cardprod";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { apiFetch } from '@/lib/api';
+import Spinner from "../../components/Spinner";
 
 const BrandPage = () => {
   const { id } = useParams(); // Se envia el id  para que cargue los products de esa brand
@@ -29,7 +30,7 @@ const BrandPage = () => {
     fetchBrandInfo();
   }, [id]);
 
-  if (loading) return <p className="text-center mt-10">Cargando...</p>;
+  if (loading) return <Spinner />;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
   if (!brandInfo) return null;
 
@@ -63,7 +64,7 @@ const BrandPage = () => {
         </div>
         <div className="w-48 h-48 lg:w-64 lg:h-64 flex-shrink-0 px-4 lg:px-8">
           <img
-            src={brandInfo.urlLogo}
+            src={brandInfo.urlLogo ?? "/storeplace.jpg"}
             alt={brandInfo.businessName}
             className="h-full w-full object-contain"
           />
