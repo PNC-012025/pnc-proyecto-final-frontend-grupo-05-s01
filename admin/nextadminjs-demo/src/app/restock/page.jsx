@@ -1,67 +1,76 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { apiFetch } from "@/lib/api";
 
 const RestockForm = () => {
+  const router = useRouter();
+
+  const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
+  const [categoriesError, setCategoriesError] = useState("");
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [stock, setStock] = useState(1);
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
-  const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState("");
 
-  // Cargar categorías disponibles
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   useEffect(() => {
-    const fetchCategories = async () => {
+    async function fetchCategories() {
       try {
-        const res = await fetch("http://localhost:8080/api/categories");
-        const data = await res.json();
+        const data = await apiFetch("/category");
         setCategories(data);
       } catch (err) {
-        console.error("Error al obtener categorías:", err);
+        setCategoriesError("Error al cargar categorías.");
+      } finally {
+        setCategoriesLoading(false);
       }
-    };
+    }
     fetchCategories();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
     if (!image) {
       alert("Por favor seleccione una imagen.");
+      setLoading(false);
       return;
     }
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("stock", stock);
-    formData.append("price", price);
-    formData.append("image", image);
-    formData.append("categoryid", categoryId);
-
     try {
-      const res = await fetch("http://localhost:8080/api/products", {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("stock", stock.toString());
+      formData.append("price", price);
+      formData.append("categoryId", categoryId); // ⚠️ Correcto: categoryId con I mayúscula
+      formData.append("image", image);
+
+      await apiFetch("/products", {
         method: "POST",
         body: formData,
-        credentials: "include",
       });
 
-      if (res.ok) {
-        alert("Producto agregado con éxito");
-        setName("");
-        setDescription("");
-        setStock(1);
-        setPrice("");
-        setCategoryId("");
-        setImage(null);
-      } else {
-        alert("Error al agregar el producto.");
-      }
+      alert("Producto enviado para ser aprobado por un administrador.");
+      router.push("/my-products");
     } catch (err) {
-      console.error("Error en el envío:", err);
+      console.error(err);
+      setError(err.message || "Ocurrió un error inesperado.");
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (categoriesError) return <p className="text-red-500 text-center">{categoriesError}</p>;
+  if (error) return <p className="text-red-500 text-center">{error}</p>;
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
@@ -71,7 +80,9 @@ const RestockForm = () => {
       <p className="text-center text-foreground mb-1 font-info">
         Recuerda: Cada vez que desees hacer renovación de stock, debes completar previamente esta ficha de registro de productos y enviarla.
       </p>
-      <p className="text-center font-bold text-sm mb-8 text-foreground">Se solicita llevar el producto etiquetado.</p>
+      <p className="text-center font-bold text-sm mb-8 text-foreground">
+        Se solicita llevar el producto etiquetado.
+      </p>
 
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md space-y-6">
         <h2 className="font-bold text-title text-lg uppercase">Detalles de productos</h2>
@@ -95,7 +106,7 @@ const RestockForm = () => {
               type="number"
               min="1"
               value={stock}
-              onChange={(e) => setStock(e.target.value)}
+              onChange={(e) => setStock(parseInt(e.target.value) || 1)}
               className="w-full border px-3 py-2 rounded-md"
               required
             />
@@ -150,7 +161,7 @@ const RestockForm = () => {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setImage(e.target.files[0])}
+            onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
             className="border border-dashed border-gray-400 w-full px-3 py-2 rounded-md"
             required
           />

@@ -1,6 +1,8 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Table from "../components/Table";
+import { apiFetch } from "@/lib/api";
 
 const MyPayments = () => {
   const [contract, setContract] = useState(null);
@@ -9,17 +11,10 @@ const MyPayments = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resContract = await fetch("http://localhost:8080/api/contract/me", {
-          credentials: "include",
-        });
-        const contractData = await resContract.json();
+        const contractData = await apiFetch("/contract/me");
         setContract(contractData);
 
-        // pagos del emprendedor
-        const resPayments = await fetch("http://localhost:8080/api/contract/my-payments", {
-          credentials: "include",
-        });
-        const paymentData = await resPayments.json();
+        const paymentData = await apiFetch("/contract/my-payments");
         setPayments(paymentData);
       } catch (err) {
         console.error("Error al obtener datos:", err);
