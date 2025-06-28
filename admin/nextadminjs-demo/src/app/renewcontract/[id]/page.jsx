@@ -3,7 +3,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 
-export default function CrearContrato() {
+export default function RenewContrato() {
   const { id } = useParams();
   const router = useRouter();
 
@@ -11,11 +11,9 @@ export default function CrearContrato() {
     userId: id || "",
     amount: "",
     paymentMethod: "",
-    paymentFrequency: "",
   });
 
   const [paymentMethods, setPaymentMethods] = useState([]);
-  const [paymentFrequencies, setPaymentFrequencies] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -25,13 +23,6 @@ export default function CrearContrato() {
         setPaymentMethods(methods || []);
       } catch (error) {
         console.error("Error al cargar métodos de pago:", error);
-      }
-
-      try {
-        const frequencies = await apiFetch("/contract/payment-frequencies");
-        setPaymentFrequencies(frequencies || []);
-      } catch (error) {
-        console.error("Error al cargar frecuencias de pago:", error);
       }
     };
 
@@ -45,13 +36,12 @@ export default function CrearContrato() {
   const isFormValid = () => {
     return (
       formData.amount.trim() !== "" &&
-      formData.paymentMethod.trim() !== "" &&
-      formData.paymentFrequency.trim() !== ""
+      formData.paymentMethod.trim() !== ""
     );
   };
 
   const handleSubmit = async () => {
-    const { userId, amount, paymentMethod, paymentFrequency } = formData;
+    const { userId, amount, paymentMethod } = formData;
 
     if (!isFormValid()) {
       alert("Por favor completa todos los campos.");
@@ -62,20 +52,20 @@ export default function CrearContrato() {
       userId: parseInt(userId),
       amount: parseFloat(amount),
       paymentMethod,
-      paymentFrequency,
     };
 
     try {
       setIsSubmitting(true);
-      await apiFetch("/contract/create", {
+
+      await apiFetch(`/contract/renew/${userId}`, {
         method: "POST",
         body: JSON.stringify(payload),
       });
 
-      alert("Contrato creado exitosamente");
+      alert("Contrato renovado exitosamente");
       router.push(`/entrepreneurprofile/${userId}`);
     } catch (error) {
-      alert("Error al crear contrato:\n" + (error.message || error));
+      alert("Error al renovar contrato:\n" + (error.message || error));
     } finally {
       setIsSubmitting(false);
     }
@@ -83,7 +73,8 @@ export default function CrearContrato() {
 
   return (
     <div className="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4">
-      <h2 className="text-lg font-bold text-center">Crear Contrato</h2>
+      <h2 className="text-lg font-bold text-center">Renovar Contrato</h2>
+
 
       <input
         name="amount"
@@ -109,20 +100,6 @@ export default function CrearContrato() {
         ))}
       </select>
 
-      <select
-        name="paymentFrequency"
-        className="w-full p-2 border rounded"
-        onChange={handleChange}
-        value={formData.paymentFrequency}
-      >
-        <option value="">Seleccione frecuencia de pago</option>
-        {paymentFrequencies.map((freq, index) => (
-          <option key={index} value={freq}>
-            {freq}
-          </option>
-        ))}
-      </select>
-
       <button
         onClick={handleSubmit}
         disabled={!isFormValid() || isSubmitting}
@@ -132,7 +109,7 @@ export default function CrearContrato() {
             : "mt-4 bg-secondary text-title font-info px-4 py-1 rounded-lg hover:bg-title hover:text-background transition text-sm"
         }`}
       >
-        {isSubmitting ? "Enviando..." : "Enviar"}
+        {isSubmitting ? "Enviando..." : "Renovar"}
       </button>
     </div>
   );
