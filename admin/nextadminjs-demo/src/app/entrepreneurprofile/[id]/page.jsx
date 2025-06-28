@@ -2,7 +2,9 @@
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import Spinner from "../../components/Spinner";
 import { apiFetch } from '@/lib/api'
+
 
 const Page = () => {
   const { id } = useParams();
@@ -17,7 +19,7 @@ useEffect(() => {
         const data = await apiFetch(`/admin/business/contracts/${id}`);
         if (data) {
           setEntrepreneur(data);
-          setIsActive(data.status === "ACTIVO");
+          setIsActive(data.statusBusiness === "ACTIVO");
         } else {
           setEntrepreneur(null);
         }
@@ -31,8 +33,24 @@ useEffect(() => {
     fetchContract();
   }, [id]);
 
+   const handleToggleStatus = async () => {
+    const newStatus = isActive ? "INACTIVO" : "ACTIVO";
+    try {
+      await apiFetch(`/admin/business/businesses/disable/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ status: newStatus }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      setIsActive(!isActive);
+    } catch (err) {
+      console.error("Error al cambiar el estado", err);
+    }
+  };
+
   if (loading) {
-    return <div className="text-center mt-10">Cargando contrato...</div>;
+    return <Spinner />;
   }
 
   if (error) {
@@ -43,36 +61,10 @@ useEffect(() => {
     return <div className="text-center mt-10">Este emprendedor no tiene contrato</div>;
   }
 
-//const data = [
-/* {
-    id: 1,
-    logo: "/logo.png",
-    brandName: "Le Croissant",
-    responsible: "Carlos Alberto Romero",
-    contact: "carlos@gmail.com",
-    phone: "+503 7593 8185",
-    active: true,
-    startDate: "DD/MM/YY",
-    endDate: "DD/MM/YY",
-    payment: "Mensual",
-    method: "Efectivo",
-  },
-];
-
-const Page = () => {
-  const { id } = useParams();
-  const entrepreneur = data.find((item) => item.id === parseInt(id));
-  const [isActive, setIsActive] = useState(entrepreneur?.active || false);
-
-  if (!entrepreneur) {
-    return <div className="text-center mt-10">Emprendedor no encontrado</div>;
-  }*/
-
   if (
   entrepreneur.startDate == null ||
   entrepreneur.endDate == null ||
-  entrepreneur.kindOfPayment == null ||
-  entrepreneur.paymentMethod == null
+  entrepreneur.kindOfPayment == null 
   ) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh]">
@@ -116,7 +108,7 @@ const Page = () => {
         {/*  Toggle buttom: para pantallas pequeñas como moviles, se centra debjo de la imagen */}
         <div className="flex justify-center md:hidden mb-4">
           <div
-            onClick={() => setIsActive(!isActive)}
+            onClick={handleToggleStatus}
             className={`w-24 h-9 rounded-full relative flex items-center px-2 transition-all duration-300 cursor-pointer ${
               isActive ? "bg-primary" : "bg-red-400"
             }`}
@@ -144,7 +136,7 @@ const Page = () => {
             {/* switch not visible in mobile screens*/}
             <div className="hidden md:block">
               <div
-                onClick={() => setIsActive(!isActive)}
+               onClick={handleToggleStatus}
                 className={`w-24 h-9 rounded-full relative flex items-center px-2 transition-all duration-300 cursor-pointer ${
                   isActive ? "bg-primary" : "bg-red-400"
                 }`}

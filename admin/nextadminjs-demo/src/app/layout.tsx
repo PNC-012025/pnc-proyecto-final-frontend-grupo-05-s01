@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import { Geist, Geist_Mono } from "next/font/google";
+import RouteLoader from "./components/RouteLoader";
 import "./globals.css";
 
-const geistSans = Geist({
+/*const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
@@ -12,7 +12,7 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
+});*/
 
 export const metadata: Metadata = {
   title: "Mercaduca",
@@ -30,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen">
+        <RouteLoader />
         <Navbar />
       <main className="flex-grow">{children}</main>
         <Footer />

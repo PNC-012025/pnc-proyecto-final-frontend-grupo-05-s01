@@ -29,12 +29,13 @@ const icons = {
 export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
   const commonItems = [
     { label: "Inicio", href: "/home" },
-    { label: "Re-stock", href: "/restock" },
-    { label: "Talonarios", href: "/talonario" },
+    { label: "Re-stock", href: "/approverestock" },
     { label: "Reglamento", href: "./policies" },
   ];
 
   const userItems = [
+    { label: "Talonarios", href: "/talonario" },
+    { label: "Mi perfil", href: "/myprofile" },
     { label: "Mis productos", href: "/my-products" },
     { label: "Contrato", href: "/contract" },
   ];
@@ -81,17 +82,6 @@ export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
             </Link>
           </li>
         ))}
-
-        <li>
-          <Link
-            href="/myprofile"
-            onClick={onClose}
-            className="flex items-center space-x-3 hover:text-title transition-colors"
-          >
-            <span className="text-lg">{icons["Mi perfil"]}</span>
-            <span>Mi perfil</span>
-          </Link>
-        </li>
 
         <li>
           <div

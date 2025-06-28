@@ -68,7 +68,7 @@ export default function Home() {
             <img
               src="/products.jpg" 
               alt="Grupo Mercaduca"
-              className="w-full max-w-md max-h-[400px] border border-primary rounded-lg shadow-lg object-cover"
+              className="w-full max-w-md max-h-[400px] border border-primary rounded-lg shadow-lg object-cover duration-300 hover:scale-105 hover:shadow-xl"
             />
           </div>
         </div>
@@ -108,7 +108,7 @@ export default function Home() {
       <img
         src="/productsatstand.jpg"
         alt="Marcas participantes en Mercaduca"
-        className="w-full max-w-md max-h-[400px] border border-primary rounded-lg shadow-lg object-cover"
+        className="w-full max-w-md max-h-[400px] border border-primary rounded-lg shadow-lg object-cover duration-300 hover:scale-105 hover:shadow-xl"
       />
     </div>
 

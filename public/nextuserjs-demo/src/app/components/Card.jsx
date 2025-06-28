@@ -9,7 +9,7 @@ const Card = ({ id, logo, brandName }) => {
   };
 
   return (
-    <div className="flex items-center border rounded-2xl border-border-card shadow-xl p-4 w-full max-w-[400px] min-h-[180px] mx-auto bg-card">
+    <div className="flex items-center border rounded-2xl border-border-card shadow-xl p-4 w-full max-w-[400px] min-h-[180px] mx-auto bg-card duration-300 hover:scale-105 hover:shadow-xl">
       <div className="w-32 h-32 rounded-full overflow-hidden flex items-center justify-center bg-card">
         <img src={logo} alt={`${brandName} logo`} className="h-full w-full object-contain" />
       </div>
