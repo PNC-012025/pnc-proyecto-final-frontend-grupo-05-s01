@@ -1,15 +1,14 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 import Swal from "sweetalert2";
-
+import { apiFetch } from "@/lib/api";
 
 const RestockProduct = () => {
   const { id: productId } = useParams();
-
   const router = useRouter();
+
   const [product, setProduct] = useState(null);
   const [updatedData, setUpdatedData] = useState({
     description: "",
@@ -21,14 +20,7 @@ const RestockProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/api/products/${productId}`, {
-          method: "GET",
-          credentials: "include",
-        });
-
-        if (!res.ok) throw new Error("No se pudo obtener el producto");
-
-        const data = await res.json();
+        const data = await apiFetch(`/products/${productId}`);
         setProduct(data);
         setUpdatedData((prev) => ({
           ...prev,
@@ -64,13 +56,10 @@ const RestockProduct = () => {
     if (updatedData.image) form.append("image", updatedData.image);
 
     try {
-      const res = await fetch(`http://localhost:8080/api/products/update/${productId}`, {
+      await apiFetch(`/products/update/${productId}`, {
         method: "PATCH",
-        credentials: "include",
         body: form,
       });
-
-      if (!res.ok) throw new Error("No se pudo actualizar el producto");
 
       Swal.fire("¡Actualizado!", "El producto ha sido actualizado con éxito", "success");
     } catch (error) {
@@ -89,12 +78,9 @@ const RestockProduct = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(`http://localhost:8080/api/products/${productId}`, {
+          await apiFetch(`/products/${productId}`, {
             method: "DELETE",
-            credentials: "include",
           });
-
-          if (!res.ok) throw new Error("No se pudo eliminar el producto");
 
           Swal.fire("Eliminado", "El producto fue eliminado correctamente", "success");
           router.push("/my-products");
@@ -141,7 +127,6 @@ const RestockProduct = () => {
         />
       </div>
 
-
       <div className="mb-4">
         <label className="block font-medium mb-1">Descripción</label>
         <textarea
@@ -169,7 +154,11 @@ const RestockProduct = () => {
         <label className="block font-medium mb-1">Imagen</label>
         <input type="file" accept="image/*" onChange={handleImageUpload} />
         {updatedData.previewImage && (
-          <img src={updatedData.previewImage} alt="Vista previa" className="mt-3 w-32 h-32 object-cover rounded" />
+          <img
+            src={updatedData.previewImage}
+            alt="Vista previa"
+            className="mt-3 w-32 h-32 object-cover rounded"
+          />
         )}
       </div>
 
@@ -181,7 +170,6 @@ const RestockProduct = () => {
           Eliminar
         </button>
       </div>
-
     </div>
   );
 };
