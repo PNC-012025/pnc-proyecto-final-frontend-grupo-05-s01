@@ -1,66 +1,60 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Entrepeneurcard from "../components/Entrepeneurcard";
-import { FaSearch } from "react-icons/fa";
-import { FaChevronDown } from "react-icons/fa";
-import { apiFetch } from '@/lib/api'
+import { FaSearch, FaChevronDown } from "react-icons/fa";
+import { apiFetch } from "@/lib/api";
+import Spinner from "../components/Spinner";
 
 const Page = () => {
-  const [brands, setBrands] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [brands, setBrands] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [filter, setFilter] = useState("");
-  const [filter2, setFilter2] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [filter, setFilter] = useState("");       // Contrato
+  const [filter2, setFilter2] = useState("");     // Estado
+  const [currentPage, setCurrentPage] = useState(1); // Página visible para el usuario
   const itemsPerPage = 9;
+
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     async function fetchBrands() {
+      setLoading(true);
       try {
         const queryParams = new URLSearchParams();
 
-        // Filtro de estado: ACTIVO / INACTIVO
-        if (filter2) {
-          queryParams.append("statuses", filter2);
-        }
+        queryParams.append("page", currentPage - 1); // La API empieza en 0
+        queryParams.append("size", itemsPerPage);
+        queryParams.append("sort", "businessName,asc");
 
-        // Filtro de contrato: true / false
-        if (filter === "true" || filter === "false") {
-          queryParams.append("tienenContrato", filter);
-        }
+        if (filter2) queryParams.append("statuses", filter2);
+        if (filter === "true" || filter === "false") queryParams.append("tienenContrato", filter);
+  
 
-        const queryString = queryParams.toString();
-        const endpoint = queryString
-          ? `/admin/business/approved?${queryString}`
-          : `/admin/business/approved`;
-
+        const endpoint = `/admin/business/approved?${queryParams.toString()}`;
         const data = await apiFetch(endpoint);
-        setBrands(data);
+
+        setBrands(data.content); // array de marcas
+        setTotalPages(data.totalPages); // total de páginas
       } catch (err) {
-        setError(err.message || 'Error al cargar los emprendimientos');
+        setError(err.message || "Error al cargar los emprendimientos");
       } finally {
         setLoading(false);
       }
     }
 
     fetchBrands();
-  }, [filter, filter2]);
+  }, [filter, filter2, currentPage]);
 
-  const filteredData = brands.filter(
-    (item) =>
-      item.businessName &&
-      item.businessName.toLowerCase().includes(searchTerm.toLowerCase())
+  // Filtro frontend adicional por nombre
+  const filteredData = brands.filter(item =>
+    item.businessName &&
+    item.businessName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const startIdx = (currentPage - 1) * itemsPerPage;
-  const currentItems = filteredData.slice(startIdx, startIdx + itemsPerPage);
-
-  if (loading) return <p>Cargando marcas aprobadas...</p>
-  if (error) return <p className="text-red-500">{error}</p>
-
+  if (loading) return <Spinner />;
+  if (error) return <p className="text-red-500">{error}</p>;
 
   return (
     <div className="container mx-auto p-4">
@@ -120,14 +114,13 @@ const Page = () => {
         </div>
       </div>
 
-
-      {/* Cards founds*/}
+      {/* Cards founds */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">
-        {currentItems.map((brand) => (
+        {filteredData.map((brand) => (
           <Entrepeneurcard
             key={brand.id}
             id={brand.id}
-            logo={brand.urlLogo}
+            logo={brand.urlLogo ?? "/storeplace.jpg"}
             brandName={brand.businessName}
             responsible={brand.ownerFullName}
             carnet={brand.ownerEmail}
