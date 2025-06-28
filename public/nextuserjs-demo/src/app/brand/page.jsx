@@ -3,11 +3,15 @@
 import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
 import { apiFetch } from '@/lib/api'
+import Spinner from "../components/Spinner";
 
 const Page = () => {
   const [brands, setBrands] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+
+   const [currentPage, setCurrentPage] = useState(1);
+   const itemsPerPage = 9;
 
   useEffect(() => {
     async function fetchBrands() {
@@ -23,25 +27,12 @@ const Page = () => {
     fetchBrands()
   }, [])
 
-
-  // Arreglo quemado para probar que las cards se agreguen dinamicamente 
-  /*const [brands, setBrands] = useState([
-    { id: 1, logo: "/logo.png", brandName: "Sucrée" },
-    { id: 2, logo: "/uca.jpg", brandName: "Calvin Klein" },
-    { id: 3, logo: "/logo.png", brandName: "McDonald's" },
-    { id: 4, logo: "/logo.png", brandName: "Versace" },
-    { id: 5, logo: "/logo.png", brandName: "Hyundai" },
-    { id: 6, logo: "/logo.png", brandName: "Le Croissant" },
-    { id: 7, logo: "/logo.png", brandName: "Hello" },
-    { id: 8, logo: "/logo.png", brandName: "UCA" },
-    { id: 9, logo: "/logo.png", brandName: "pizza hut" },
-    { id: 10, logo: "/logo.png", brandName: "pollo campero" },
-    { id: 11, logo: "/logo.png", brandName: "starbucks" },
-    { id: 12, logo: "/logo.png", brandName: "starbucks" },
-    { id: 13, logo: "/logo.png", brandName: "Mercaduca" },
-]);*/
-  if (loading) return <p>Cargando marcas aprobadas...</p>
+  if (loading) return <Spinner />;
   if (error) return <p className="text-red-500">{error}</p>
+
+  const totalPages = Math.ceil(brands.length / itemsPerPage);
+  const startIdx = (currentPage - 1) * itemsPerPage;
+  const currentItems = brands.slice(startIdx, startIdx + itemsPerPage);
 
   return (
     <div>
@@ -59,12 +50,37 @@ const Page = () => {
       </h2>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-4 mb-16">
-        {brands.map((brand) => (
-          <Card key={brand.id} id={brand.id} logo={brand.urlLogo} brandName={brand.businessName}/>
+        {currentItems.map((brand) => (
+          <Card 
+          key={brand.id} 
+          id={brand.id} 
+          logo={brand.urlLogo ?? "/storeplace.jpg"} 
+          brandName={brand.businessName}
+          />
         ))}
       </div>
-    </div>
 
+    {/* Paginación */}        
+    <div className="flex justify-center mt-6 mb-8 space-x-2">
+        <button
+          onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+          disabled={currentPage === 1}
+          className="px-3 py-1 bg-secondary text-title rounded hover:bg-title hover:text-background transition text-sm disabled:opacity-50"
+        >
+          Anterior
+        </button>
+        <span className="text-sm font-info text-foreground">
+          Página {currentPage} de {totalPages}
+        </span>
+        <button
+          onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className="px-3 py-1 bg-secondary text-title rounded hover:bg-title hover:text-background transition text-sm disabled:opacity-50"
+        >
+          Siguiente
+        </button>
+      </div>
+    </div>
   );
 };
 
