@@ -34,10 +34,10 @@ export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
   ];
 
   const userItems = [
-    { label: "Mis productos", href: "/productos" },
-    { label: "Talonarios", href: "/talonarios" },
-    { label: "Contrato", href: "/contrato" },
+    { label: "Talonarios", href: "/talonario" },
     { label: "Mi perfil", href: "/myprofile" },
+    { label: "Mis productos", href: "/my-products" },
+    { label: "Contrato", href: "/contract" },
   ];
 
   const adminItems = [
