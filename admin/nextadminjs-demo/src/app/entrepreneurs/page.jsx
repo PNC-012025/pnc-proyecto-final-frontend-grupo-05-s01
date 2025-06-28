@@ -11,9 +11,9 @@ const Page = () => {
   const [error, setError] = useState('');
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [filter, setFilter] = useState("");       // Contrato
-  const [filter2, setFilter2] = useState("");     // Estado
-  const [currentPage, setCurrentPage] = useState(1); // Página visible para el usuario
+  const [filter, setFilter] = useState("");       
+  const [filter2, setFilter2] = useState("");     
+  const [currentPage, setCurrentPage] = useState(1); 
   const itemsPerPage = 9;
 
   const [totalPages, setTotalPages] = useState(0);
@@ -24,7 +24,7 @@ const Page = () => {
       try {
         const queryParams = new URLSearchParams();
 
-        queryParams.append("page", currentPage - 1); // La API empieza en 0
+        queryParams.append("page", currentPage - 1); 
         queryParams.append("size", itemsPerPage);
         queryParams.append("sort", "businessName,asc");
 
@@ -35,8 +35,8 @@ const Page = () => {
         const endpoint = `/admin/business/approved?${queryParams.toString()}`;
         const data = await apiFetch(endpoint);
 
-        setBrands(data.content); // array de marcas
-        setTotalPages(data.totalPages); // total de páginas
+        setBrands(data.content); 
+        setTotalPages(data.totalPages); 
       } catch (err) {
         setError(err.message || "Error al cargar los emprendimientos");
       } finally {
@@ -47,7 +47,7 @@ const Page = () => {
     fetchBrands();
   }, [filter, filter2, currentPage]);
 
-  // Filtro frontend adicional por nombre
+  
   const filteredData = brands.filter(item =>
     item.businessName &&
     item.businessName.toLowerCase().includes(searchTerm.toLowerCase())
