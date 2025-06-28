@@ -2,7 +2,9 @@
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import Spinner from "../../components/Spinner";
 import { apiFetch } from '@/lib/api'
+
 
 const Page = () => {
   const { id } = useParams();
@@ -48,7 +50,7 @@ useEffect(() => {
   };
 
   if (loading) {
-    return <div className="text-center mt-10">Cargando contrato...</div>;
+    return <Spinner />;
   }
 
   if (error) {
