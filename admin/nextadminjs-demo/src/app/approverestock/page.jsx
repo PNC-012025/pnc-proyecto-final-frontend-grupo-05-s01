@@ -4,12 +4,13 @@ import Entrepeneurcard from "../components/Entrepeneurcard";
 import { FaSearch, FaChevronDown } from "react-icons/fa";
 import { apiFetch } from "@/lib/api";
 import Spinner from "../components/Spinner";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");      
   const [filter2, setFilter2] = useState("");     
@@ -90,6 +91,7 @@ const Page = () => {
             responsible={brand.ownerFullName}
             carnet={brand.ownerEmail}
             career={brand.major}
+            onClick={() => router.push(`/renewstock/${brand.id}`)}
           />
         ))}
       </div>

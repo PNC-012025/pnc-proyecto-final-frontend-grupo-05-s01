@@ -51,7 +51,7 @@ const RestockForm = () => {
       formData.append("description", description);
       formData.append("stock", stock.toString());
       formData.append("price", price);
-      formData.append("categoryId", categoryId); 
+      formData.append("categoryId", categoryId);
       formData.append("image", image);
 
       await apiFetch("/products", {

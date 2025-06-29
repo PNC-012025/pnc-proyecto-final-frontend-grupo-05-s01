@@ -12,19 +12,32 @@ const InfoRow = ({ icon: Icon, label }) => (
   </div>
 );
 
-const Entrepeneurcard = ({ id, logo, brandName, responsible, carnet, career }) => {
+const Entrepeneurcard = ({
+  id,
+  logo,
+  brandName,
+  responsible,
+  carnet,
+  career,
+  onClick,
+}) => {
   const router = useRouter();
 
-  const handleViewProfile = () => {
+  const handleViewProfile = (e) => {
+    e.stopPropagation();
     router.push(`/entrepreneurprofile/${id}`);
   };
 
-  const handleViewTalonario = () => {
-    router.push(`/talonarios/${id}`); 
+  const handleViewTalonario = (e) => {
+    e.stopPropagation();
+    router.push(`/talonarios/${id}`);
   };
 
   return (
-    <div className="border rounded-xl p-4 bg-card border-border-card shadow-md flex flex-row w-full max-w-lg mx-auto items-center duration-300 hover:scale-105 hover:shadow-xl">
+    <div
+      onClick={onClick}
+      className="border rounded-xl p-4 bg-card border-border-card shadow-md flex flex-row w-full max-w-lg mx-auto items-center duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+    >
       <div className="w-1/3 flex justify-center">
         <img
           src={logo}
