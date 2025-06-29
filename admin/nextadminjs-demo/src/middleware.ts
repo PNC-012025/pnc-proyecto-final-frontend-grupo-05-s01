@@ -5,7 +5,6 @@ import { jwtDecode } from "jwt-decode";
 const PUBLIC_ROUTES = ["/auth/login", "/favicon.ico", "/403"];
 
 const ENTREPRENEUR_ROUTES = [
-
   "/myprofile",
   "/my-products",
   "/edit-profile",
@@ -16,7 +15,6 @@ const ENTREPRENEUR_ROUTES = [
 ];
 
 const ADMIN_ROUTES = [
-
   "/entrepreneurs",
   "/solicitudes",
   "/admin/talonario",
@@ -29,20 +27,25 @@ const ADMIN_ROUTES = [
   "/approverestock",
 ];
 
+interface JwtPayload {
+  role?: string;
+  [key: string]: unknown;
+}
+
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
   if (PUBLIC_ROUTES.some((route) => pathname.startsWith(route))) {
     return NextResponse.next();
   }
 
-  // Si no hay token ---> 403
   const token = req.cookies.get("jwt")?.value;
   if (!token) {
     return NextResponse.redirect(new URL("/403", req.url));
   }
 
   try {
-    const decoded: any = jwtDecode(token);
+    const decoded = jwtDecode<JwtPayload>(token);
     const role = decoded?.role?.toUpperCase();
 
     const isAdmin = role === "ROLE_ADMIN";
@@ -57,14 +60,13 @@ export function middleware(req: NextRequest) {
     }
 
     return NextResponse.next();
-  } catch (_err) {
+  } catch {
     return NextResponse.redirect(new URL("/403", req.url));
   }
 }
 
 export const config = {
   matcher: [
-    // emprendedor
     "/myprofile/:path*",
     "/my-products/:path*",
     "/edit-profile/:path*",
@@ -73,10 +75,9 @@ export const config = {
     "/restock/:path*",
     "/products-restock/:path*",
 
-    //admin
     "/entrepreneurs/:path*",
     "/solicitudes/:path*",
-    "/admin/:path*",                
+    "/admin/:path*",
     "/entrepreneurform/:path*",
     "/entrepreneurprofile/:path*",
     "/createcontract/:path*",
