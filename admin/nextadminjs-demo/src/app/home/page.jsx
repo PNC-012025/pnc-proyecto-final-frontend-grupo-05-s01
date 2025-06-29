@@ -1,7 +1,12 @@
 "use client";
 import { FaUser } from "react-icons/fa";
 import { FaCalendarDays } from "react-icons/fa6";
-import { FaClock, FaMapMarkerAlt, FaFileAlt, FaUserCheck } from "react-icons/fa";
+import {
+  FaClock,
+  FaMapMarkerAlt,
+  FaFileAlt,
+  FaUserCheck,
+} from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import { MdDone } from "react-icons/md";
 import { WiStars } from "react-icons/wi";
@@ -45,7 +50,8 @@ export default function Home() {
             Duración del contrato
           </h2>
           <p className="text-base font-info text-center mb-10 text-foreground">
-            El período de participación en el local emprendedor es de (3) tres meses
+            El período de participación en el local emprendedor es de (3) tres
+            meses
           </p>
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-12">
@@ -82,7 +88,6 @@ export default function Home() {
         </div>
       </section>
 
-
       {/* Restock section */}
       <section className="py-16 bg-primary text-background">
         <div className="max-w-6xl mx-auto px-6">
@@ -97,7 +102,9 @@ export default function Home() {
                 <strong>Cada emprendedor podrá:</strong>
               </p>
               <ol className="list-decimal list-inside space-y-3 text-base font-info leading-relaxed">
-                <li>Contar con un máximo de 7 categorías de productos por precio.</li>
+                <li>
+                  Contar con un máximo de 7 categorías de productos por precio.
+                </li>
                 <li>Renovar su producto en el día y horario establecido.</li>
               </ol>
             </div>
@@ -127,10 +134,7 @@ export default function Home() {
             <ProductInfo
               image="/snoopy.png"
               title="Productos en general:"
-              items={[
-                "Nombre del emprendimiento",
-                "Precio del producto",
-              ]}
+              items={["Nombre del emprendimiento", "Precio del producto"]}
             />
 
             <ProductInfo
@@ -154,7 +158,9 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-primary/50" />
         <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-titles font-bold mb-8">Renovación Stock</h2>
+          <h2 className="text-3xl font-titles font-bold mb-8">
+            Renovación Stock
+          </h2>
 
           {/* Informacion sobre horarios/lugar */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12 text-center">
@@ -182,16 +188,31 @@ export default function Home() {
           </div>
 
           {/*steps to restock products*/}
-          <p className="text-2xl font-titles font-bold mb-4 text-center">Paso a paso:</p>
+          <p className="text-2xl font-titles font-bold mb-4 text-center">
+            Paso a paso:
+          </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 font-info gap-6">
-            <Step Icon={FaFileAlt} title="1. Completar y enviar" text="Ficha de registro de productos.">
-              <button className="mt-4 bg-secondary text-title px-4 py-2 rounded-md font-info font-semibold text-sm hover:bg-title hover:text-background transition">
-                Ficha de registro
-              </button>
+            <Step
+              Icon={FaFileAlt}
+              title="1. Completar y enviar"
+              text="Ficha de registro de productos."
+            >
             </Step>
-            <Step Icon={FaUserCheck} title="2. Llegar al COP" text="Indicar que se ha enviado la ficha." />
-            <Step Icon={BsSearch} title="3. Revisión" text="Se validará físicamente el inventario por parte del equipo de emprendimiento." />
-            <Step Icon={MdDone} title="4. ¡Listo!" text="Puedes llevar tus productos a Mercaduca para acomodarlos en tu espacio." />
+            <Step
+              Icon={FaUserCheck}
+              title="2. Llegar al COP"
+              text="Indicar que se ha enviado la ficha."
+            />
+            <Step
+              Icon={BsSearch}
+              title="3. Revisión"
+              text="Se validará físicamente el inventario por parte del equipo de emprendimiento."
+            />
+            <Step
+              Icon={MdDone}
+              title="4. ¡Listo!"
+              text="Puedes llevar tus productos a Mercaduca para acomodarlos en tu espacio."
+            />
           </div>
         </div>
       </section>
@@ -213,16 +234,18 @@ export default function Home() {
             </h3>
             <div className="text-base font-info text-foreground mb-6 leading-relaxed space-y-6">
               <p>
-                Los emprendedores podrán realizar el pago de la mensualidad únicamente con el método de pago de EFECTIVO en las instalaciones del Centro de Orientación Profesional (COP).
+                Los emprendedores podrán realizar el pago de la mensualidad
+                únicamente con el método de pago de EFECTIVO en las
+                instalaciones del Centro de Orientación Profesional (COP).
               </p>
               <p>
-                Para conocer las fechas de vencimiento, estado y comprobante de pago de las mensualidades, consultar sección de talonario.
+                Para conocer las fechas de vencimiento, estado y comprobante de
+                pago de las mensualidades, consultar sección de talonario.
               </p>
             </div>
           </div>
         </div>
       </section>
-
     </main>
-  )
+  );
 }
