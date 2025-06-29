@@ -42,8 +42,8 @@ export default function EntrepreneurFormView() {
           <p><strong>Fecha de nacimiento:</strong> {data.submissionDate}</p>
           <p><strong>Tipo de emprendedor:</strong> {data.entrepeneurKind}</p>
           <p><strong>Carnet UCA:</strong> {data.userEmail}</p>
-          <p><strong>Facultad:</strong> {data.userFaculty}</p>
-          <p><strong>Carrera:</strong> {data.sector}</p>
+          <p><strong>Facultad:</strong> {data.facultyName}</p>
+          <p><strong>Carrera:</strong> {data.majorName}</p>
         </div>
 
         <div className="space-y-2 text-sm font-info">

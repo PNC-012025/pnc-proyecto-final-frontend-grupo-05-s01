@@ -238,7 +238,7 @@ const updateStatus = async (id, action) => {
                 projectName={e.businessName}
                 name={`${e.userName} ${e.userLastName}`}
                 carnet={e.userEmail}
-                career={e.userMajor}
+                career={e.majorName}
                 status={e.status}
                 onApprove={() => updateStatus(e.id, "approve")}
                 onReject={() => updateStatus(e.id, "reject")}
