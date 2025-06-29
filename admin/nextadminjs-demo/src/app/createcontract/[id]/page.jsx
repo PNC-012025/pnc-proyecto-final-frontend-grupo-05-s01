@@ -2,6 +2,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
+import Swal from "sweetalert2";
 
 export default function CrearContrato() {
   const { id } = useParams();
@@ -54,7 +55,7 @@ export default function CrearContrato() {
     const { userId, amount, paymentMethod, paymentFrequency } = formData;
 
     if (!isFormValid()) {
-      alert("Por favor completa todos los campos.");
+      Swal.fire("Error", "Por favor completa todos los campos.", "error");
       return;
     }
 
@@ -72,10 +73,10 @@ export default function CrearContrato() {
         body: JSON.stringify(payload),
       });
 
-      alert("Contrato creado exitosamente");
+      Swal.fire("Éxito", "Productos aprobados correctamente.", "success");
       router.push(`/entrepreneurprofile/${userId}`);
     } catch (error) {
-      alert("Error al crear contrato:\n" + (error.message || error));
+      Swal.fire("Error", "Error al crear contrato:\n" + (error.message || error), "error");
     } finally {
       setIsSubmitting(false);
     }
