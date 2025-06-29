@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { FaCheck, FaTimes, FaSortUp, FaSortDown } from "react-icons/fa";
 import { apiFetch } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import Spinner from "../components/Spinner";
 
 const EntrepreneurCard = ({
   id,
@@ -202,7 +203,7 @@ export default function ApplicantsList() {
 
       {/* Lista */}
       {loading ? (
-        <p className="text-center">Cargando...</p>
+        <Spinner />
       ) : error ? (
         <p className="text-center text-red-500">{error}</p>
       ) : (
