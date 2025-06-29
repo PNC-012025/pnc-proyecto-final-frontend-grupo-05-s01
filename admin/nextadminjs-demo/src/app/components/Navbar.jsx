@@ -7,6 +7,7 @@ import { apiFetch } from "@/lib/api";
 
 export default function Navbar() {
     const pathname = usePathname();
+    if (pathname === "/") return null;
     if (pathname === "/auth/login") return null;
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [role, setRole] = useState(null);
