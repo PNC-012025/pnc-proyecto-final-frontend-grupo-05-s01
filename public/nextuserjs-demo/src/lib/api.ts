@@ -1,5 +1,9 @@
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+interface CustomError extends Error {
+  details?: string[];
+}
+
 export async function apiFetch<T>(
   endpoint: string,
   options: RequestInit = {}
@@ -21,7 +25,6 @@ export async function apiFetch<T>(
   }
 
   if (!isFormData) {
-
     headers['Content-Type'] = 'application/json';
   }
 
@@ -32,17 +35,30 @@ export async function apiFetch<T>(
     cache: 'no-store',
   });
 
-  if (!res.ok) {
-    const error = await res.text();
-    let message = 'Error en la petición';
-    try {
-      const parsed = JSON.parse(error);
-      message = parsed.message || message;
-    } catch (_) {}
-    throw new Error(message);
-  }
-
   const text = await res.text();
+
+  if (!res.ok) {
+    try {
+      const parsed = JSON.parse(text);
+      const error: CustomError = new Error('Error en la petición');
+
+      if (typeof parsed === 'object' && parsed !== null) {
+        if (Array.isArray(parsed)) {
+          error.details = parsed;
+        } else {
+          error.details = Object.values(parsed).flatMap(value =>
+            Array.isArray(value) ? value : [value]
+          );
+        }
+      } else {
+        error.details = [text];
+      }
+
+      throw error;
+    } catch {
+      throw new Error(text || 'Error en la petición');
+    }
+  }
 
   return text ? JSON.parse(text) : ({} as T);
 }

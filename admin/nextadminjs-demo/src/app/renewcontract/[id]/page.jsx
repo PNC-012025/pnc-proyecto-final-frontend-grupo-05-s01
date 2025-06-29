@@ -44,7 +44,7 @@ export default function RenewContrato() {
     const { userId, amount, paymentMethod } = formData;
 
     if (!isFormValid()) {
-      alert("Por favor completa todos los campos.");
+      Swal.fire("Error", "Por favor completa todos los campos.", "error");
       return;
     }
 
@@ -62,10 +62,10 @@ export default function RenewContrato() {
         body: JSON.stringify(payload),
       });
 
-      alert("Contrato renovado exitosamente");
+      Swal.fire("Éxito", "Productos aprobados correctamente.", "success");
       router.push(`/entrepreneurprofile/${userId}`);
     } catch (error) {
-      alert("Error al renovar contrato:\n" + (error.message || error));
+      Swal.fire("Error", "Error al renovar contrato:\n" + (error.message || error), "error");
     } finally {
       setIsSubmitting(false);
     }

@@ -12,7 +12,7 @@ const Page = () => {
   const [error, setError] = useState('');
   const router = useRouter();
   const [filter, setFilter] = useState("");      
-  const [filter2, setFilter2] = useState("");     
+  const [filter2, setFilter2] = useState("ACTIVO");     
   const [currentPage, setCurrentPage] = useState(1); 
   const itemsPerPage = 9;
 
@@ -33,6 +33,7 @@ const Page = () => {
         queryParams.append("tienenProductosPendientes", "true");
 
         const endpoint = `/admin/business/approved?${queryParams.toString()}`;
+        console.log("Fetching brands from:", endpoint);
         const data = await apiFetch(endpoint);
 
         setBrands(data.content); 

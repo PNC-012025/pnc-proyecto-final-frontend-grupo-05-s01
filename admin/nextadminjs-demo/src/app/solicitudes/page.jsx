@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { FaCheck, FaTimes, FaSortUp, FaSortDown } from "react-icons/fa";
 import { apiFetch } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import Spinner from "../components/Spinner";
+import Swal from "sweetalert2";
 
 const EntrepreneurCard = ({
   id,
@@ -108,32 +110,53 @@ export default function ApplicantsList() {
     fetchData();
   }, [activeTab, page, sortDirection]);
 
-  const updateStatus = async (id, action) => {
-    try {
-      setLoadingId(id);
+const updateStatus = async (id, action) => {
+  try {
+    setLoadingId(id);
 
-      const options = {
-        method: "POST",
-      };
+    const options = {
+      method: "POST",
+    };
 
-      if (action === "reject") {
-        const reason = prompt("Ingrese la razón del rechazo:");
-        if (!reason) {
-          setLoadingId(null); 
-          return;
-        }
+    if (action === "reject") {
+      const { value: reason } = await Swal.fire({
+        title: "Razón del rechazo",
+        input: "text",
+        inputLabel: "Por favor, ingrese el motivo",
+        inputPlaceholder: "Escribe aquí...",
+        showCancelButton: true,
+        confirmButtonText: "Rechazar",
+        cancelButtonText: "Cancelar",
+        inputValidator: (value) => {
+          if (!value) {
+            return "Debes ingresar una razón para continuar.";
+          }
+        },
+      });
 
-        options.body = JSON.stringify({ reason });
+      if (!reason) {
+        setLoadingId(null);
+        return;
       }
 
-      await apiFetch(`/business-requests/${id}/${action}`, options);
-      await fetchData();
-    } catch (error) {
-      console.error(`Error al ${action} solicitud ${id}`, error);
-    } finally {
-      setLoadingId(null);
+      options.body = JSON.stringify({ reason });
     }
-  };
+
+    await apiFetch(`/business-requests/${id}/${action}`, options);
+    await fetchData();
+
+    if (action === "approve") {
+      Swal.fire("Éxito", "Solicitud aprobada correctamente.", "success");
+    } else {
+      Swal.fire("Rechazada", "Solicitud rechazada correctamente.", "info");
+    }
+  } catch (error) {
+    console.error(`Error al ${action} solicitud ${id}`, error);
+    Swal.fire("Error", `No se pudo procesar la solicitud.`, "error");
+  } finally {
+    setLoadingId(null);
+  }
+};
 
   return (
     <section className="py-10 px-6">
@@ -201,7 +224,7 @@ export default function ApplicantsList() {
 
       {/* Lista */}
       {loading ? (
-        <p className="text-center">Cargando...</p>
+        <Spinner />
       ) : error ? (
         <p className="text-center text-red-500">{error}</p>
       ) : (
@@ -214,7 +237,7 @@ export default function ApplicantsList() {
                 projectName={e.businessName}
                 name={`${e.userName} ${e.userLastName}`}
                 carnet={e.userEmail}
-                career={e.userMajor}
+                career={e.majorName}
                 status={e.status}
                 onApprove={() => updateStatus(e.id, "approve")}
                 onReject={() => updateStatus(e.id, "reject")}
