@@ -13,6 +13,7 @@ export default function EntrepreneurFormView() {
       try {
         const response = await apiFetch(`/business-requests/${id}`);
         setData(response);
+        console.log("Datos del emprendedor:", response);
       } catch (error) {
         console.error("Error al cargar datos:", error);
       }
@@ -41,7 +42,7 @@ export default function EntrepreneurFormView() {
           <p><strong>Fecha de nacimiento:</strong> {data.submissionDate}</p>
           <p><strong>Tipo de emprendedor:</strong> {data.entrepeneurKind}</p>
           <p><strong>Carnet UCA:</strong> {data.userEmail}</p>
-          <p><strong>Facultad:</strong> {data.faculty}</p>
+          <p><strong>Facultad:</strong> {data.userFaculty}</p>
           <p><strong>Carrera:</strong> {data.sector}</p>
         </div>
 
