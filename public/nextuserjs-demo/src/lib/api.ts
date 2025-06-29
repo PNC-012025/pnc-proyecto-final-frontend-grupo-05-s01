@@ -32,17 +32,29 @@ export async function apiFetch<T>(
     cache: 'no-store',
   });
 
-  if (!res.ok) {
-    const error = await res.text();
-    let message = 'Error en la petición';
-    try {
-      const parsed = JSON.parse(error);
-      message = parsed.message || message;
-    } catch (_) {}
-    throw new Error(message);
-  }
-
   const text = await res.text();
+
+  if (!res.ok) {
+    try {
+      const parsed = JSON.parse(text);
+      const error = new Error('Error en la petición');
+      if (typeof parsed === 'object' && parsed !== null) {
+        if (Array.isArray(parsed)) {
+          (error as any).details = parsed;
+        } else {
+          (error as any).details = Object.values(parsed).flatMap(value =>
+            Array.isArray(value) ? value : [value]
+          );
+        }
+      } else {
+        (error as any).details = [text];
+      }
+
+      throw error;
+    } catch {
+      throw new Error(text || 'Error en la petición');
+    }
+  }
 
   return text ? JSON.parse(text) : ({} as T);
 }
