@@ -47,9 +47,9 @@ const MyPayments = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-background">
-      <h1 className="text-3xl font-bold text-title mb-6 text-center">Información de Pagos</h1>
+      <h1 className="text-3xl font-bold font-titles text-title mb-6 text-center">Información de Pagos</h1>
 
-      <div className="bg-white p-6 rounded shadow">
+      <div className="bg-white font-info text-foreground p-6 rounded shadow">
         <p><strong>Emprendimiento:</strong> {contract.businessName}</p>
         <p><strong>Inicio:</strong> {contract.startDate}</p>
         <p><strong>Fin:</strong> {contract.endDate}</p>
@@ -57,7 +57,7 @@ const MyPayments = () => {
       </div>
 
       <div className="mt-6 bg-green-100 border-l-4 border-green-700 text-foreground p-4 rounded">
-        <p className="font-bold text-lg">📅 Tu siguiente pago es el:</p>
+        <p className="font-bold font-info text-lg">📅 Tu siguiente pago es el:</p>
         <p className="text-xl mt-1">{contract.nextPaymentDate}</p>
       </div>
 

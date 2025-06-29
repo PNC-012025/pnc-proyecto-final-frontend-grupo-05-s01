@@ -82,22 +82,22 @@ export default function CrearContrato() {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4">
-      <h2 className="text-lg font-bold text-center">Crear Contrato</h2>
+    <div className="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4 mt-16">
+      <h2 className="text-lg font-bold text-center text-title font-titles">Crear Contrato</h2>
 
       <input
         name="amount"
         type="number"
         step="0.01"
         placeholder="Monto del Contrato"
-        className="w-full p-2 border rounded"
+        className="w-full p-2 border rounded text-foreground font-info"
         onChange={handleChange}
         value={formData.amount}
       />
 
       <select
         name="paymentMethod"
-        className="w-full p-2 border rounded"
+        className="w-full p-2 border rounded text-foreground font-info"
         onChange={handleChange}
         value={formData.paymentMethod}
       >
@@ -111,7 +111,7 @@ export default function CrearContrato() {
 
       <select
         name="paymentFrequency"
-        className="w-full p-2 border rounded"
+        className="w-full p-2 border rounded text-foreground font-info"
         onChange={handleChange}
         value={formData.paymentFrequency}
       >
@@ -129,7 +129,7 @@ export default function CrearContrato() {
         className={`w-full py-2 rounded ${
           !isFormValid() || isSubmitting
             ? "bg-gray-400 cursor-not-allowed"
-            : "mt-4 bg-secondary text-title font-info px-4 py-1 rounded-lg hover:bg-title hover:text-background transition text-sm"
+            : "mt-4 bg-secondary text-title font-info px-4 py-1 rounded-lg hover:bg-title hover:text-background transition cursor-pointer text-sm"
         }`}
       >
         {isSubmitting ? "Enviando..." : "Enviar"}

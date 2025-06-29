@@ -64,7 +64,7 @@ const ProductosPendientesPage = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-background">
-      <h1 className="text-3xl font-titles text-title text-center uppercase mb-6">
+      <h1 className="text-3xl font-titles text-title text-center mb-6 mt-10">
         Productos Pendientes
       </h1>
 
@@ -72,7 +72,7 @@ const ProductosPendientesPage = () => {
         <button
             onClick={handleApproveSelected}
             disabled={selectedIds.length === 0}
-            className={`bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition ${
+            className={`bg-primary text-background px-4 py-2 rounded hover:bg-title font-info transition ${
                 selectedIds.length === 0 ? "opacity-50 cursor-not-allowed" : ""
             }`}
             >
@@ -88,7 +88,7 @@ const ProductosPendientesPage = () => {
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto border text-sm font-info">
-            <thead className="bg-gray-100 text-left">
+            <thead className="bg-gray-100 text-foreground text-left">
               <tr>
                 <th className="border p-2">✔</th>
                 <th className="border p-2">Imagen</th>

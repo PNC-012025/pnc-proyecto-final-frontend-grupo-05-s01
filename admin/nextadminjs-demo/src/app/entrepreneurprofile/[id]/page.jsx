@@ -20,7 +20,7 @@ const Page = () => {
         const data = await apiFetch(`/admin/business/contracts/${id}`);
         if (data) {
           setEntrepreneur(data);
-          setIsActive(data.status === "ACTIVO");
+          setIsActive(data.statusBusiness === "ACTIVO");
         } else {
           setEntrepreneur(null);
         }
@@ -33,6 +33,22 @@ const Page = () => {
 
     fetchContract();
   }, [id]);
+
+  const handleToggleStatus = async () => {
+    const newStatus = isActive ? "INACTIVO" : "ACTIVO";
+    try {
+      await apiFetch(`/admin/business/businesses/disable/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ status: newStatus }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      setIsActive(!isActive);
+    } catch (err) {
+      console.error("Error al cambiar el estado", err);
+    }
+  };
 
   const isContractFinished = () => {
     if (!entrepreneur?.endDate) return false;
@@ -56,8 +72,7 @@ const Page = () => {
   if (
     entrepreneur.startDate == null &&
     entrepreneur.endDate == null &&
-    entrepreneur.kindOfPayment == null &&
-    entrepreneur.paymentMethod == null
+    entrepreneur.kindOfPayment == null 
   ) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
@@ -84,18 +99,17 @@ const Page = () => {
       <div className="flex flex-col md:flex-row md:items-start gap-6 mb-10">
         <div className="md:w-1/3 flex flex-col items-center mt-4">
           <img
-            src={entrepreneur.urlLogo}
+            src={entrepreneur.urlLogo ?? "/storeplace.jpg"}
             alt="Logo"
             width={120}
             height={120}
             className="rounded-full object-cover"
           />
 
-          {/* Controles en móvil */}
+          {/* Controles en pantallas moviles*/}
           <div className="md:hidden mt-4 space-y-2">
-            {/* ACTIVO / INACTIVO */}
             <div
-              onClick={() => setIsActive(!isActive)}
+              onClick={handleToggleStatus}
               className={`w-24 h-9 rounded-full relative flex items-center px-2 transition-all duration-300 cursor-pointer ${
                 isActive ? "bg-primary" : "bg-red-400"
               }`}
@@ -135,11 +149,11 @@ const Page = () => {
           <div className="flex justify-between items-center pr-4">
             <h2 className="text-lg font-semibold">Información del cliente:</h2>
 
-            {/* Controles en escritorio */}
+            {/* Controles en pantallas de computadora comleta */}
             <div className="hidden md:flex flex-col items-end gap-2">
-              {/* ACTIVO / INACTIVO */}
+            
               <div
-                onClick={() => setIsActive(!isActive)}
+                onClick={handleToggleStatus}
                 className={`w-24 h-9 rounded-full relative flex items-center px-2 transition-all duration-300 cursor-pointer ${
                   isActive ? "bg-primary" : "bg-red-400"
                 }`}
@@ -201,7 +215,6 @@ const Page = () => {
         <h3 className="text-lg font-semibold">Monto y forma de pago:</h3>
         <div className="text-sm text-foreground space-y-3">
           <p><strong>Frecuencia de pago:</strong> {entrepreneur.kindOfPayment}</p>
-          <p><strong>Método de pago:</strong> {entrepreneur.paymentMethod}</p>
         </div>
       </div>
     </div>

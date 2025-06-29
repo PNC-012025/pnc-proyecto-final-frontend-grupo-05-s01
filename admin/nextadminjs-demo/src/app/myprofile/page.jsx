@@ -48,9 +48,9 @@ const MyProfile = () => {
     );
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-background">
       <main className="flex-grow container mx-auto px-4 py-8 max-w-4xl">
-        <h1 className="text-3xl font-bold font-titles text-foreground mb-6 text-center">MI PERFIL</h1>
+        <h1 className="text-3xl font-bold font-titles text-foreground mb-6 text-center">Mi perfil</h1>
         <div className="bg-white rounded-lg shadow-md p-6 md:p-8">
           <div className="flex justify-between items-start mb-8">
             <div className="flex items-center space-x-4">
@@ -61,53 +61,53 @@ const MyProfile = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h2 className="text-titles font-semibold text-foreground uppercase">
+              <h2 className="text-titles font-semibold text-primary uppercase">
                 {businessData.businessName || "Nombre de Marca"}
               </h2>
             </div>
             <button
               onClick={handleEditProfile}
-              className="bg-secondary text-title px-4 py-2 rounded-md hover:bg-title transition hover:text-background"
+              className="bg-secondary text-title px-4 py-2 rounded-md hover:bg-title transition hover:text-background cursor-pointer"
             >
               EDITAR PERFIL
             </button>
           </div>
 
           <section className="mb-8">
-            <h3 className="text-xl font-semibold text-foreground mb-4">
+            <h3 className="text-xl font-info text-foreground mb-4">
               Mi información comercial
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <p className="text-foreground font-semibold">Sector:</p>
-                <p className="font-medium">{businessData.sector}</p>
+                <p className="text-foreground font-info font-semibold">Sector:</p>
+                <p className="text-foreground font-info">{businessData.sector}</p>
               </div>
               <div>
-                <p className="text-foreground font-semibold">Número de teléfono:</p>
-                <p className="font-medium">+503 {businessData.phone}</p>
+                <p className="text-foreground font-info font-semibold">Número de teléfono:</p>
+                <p className="text-foreground font-info">+503 {businessData.phone}</p>
               </div>
               <div>
-                <p className="text-foreground font-semibold">Rango de precios:</p>
-                <p className="font-medium">{businessData.priceRange}</p>
+                <p className="text-foreground font-info font-semibold">Rango de precios:</p>
+                <p className="text-foreground font-info">{businessData.priceRange}</p>
               </div>
               <div>
-                <p className="text-foreground font-semibold">Tipo de producto:</p>
-                <p className="font-medium">{businessData.productType}</p>
+                <p className="text-foreground font-info font-semibold">Tipo de producto:</p>
+                <p className="text-foreground font-info">{businessData.productType}</p>
               </div>
               <div>
-                <p className="text-foreground font-semibold">Facebook:</p>
-                <p className="font-medium">{businessData.facebook}</p>
+                <p className="text-foreground font-info font-semibold">Facebook:</p>
+                <p className="text-foreground font-info">{businessData.facebook}</p>
               </div>
               <div>
-                <p className="text-foreground font-semibold">Instagram:</p>
-                <p className="font-medium">{businessData.instagram}</p>
+                <p className="text-foreground font-info font-semibold">Instagram:</p>
+                <p className="text-foreground font-info">{businessData.instagram}</p>
               </div>
             </div>
 
             <div>
-              <p className="text-foreground font-semibold">Descripción marca:</p>
-              <p className="font-medium">{businessData.description}</p>
+              <p className="text-foreground font-info font-semibold">Descripción marca:</p>
+              <p className=" text-foreground font-info">{businessData.description}</p>
             </div>
           </section>
         </div>

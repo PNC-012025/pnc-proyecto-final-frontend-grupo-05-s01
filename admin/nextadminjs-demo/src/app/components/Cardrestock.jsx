@@ -55,20 +55,6 @@ const Entrepeneurcard = ({
           <InfoRow icon={HiIdentification} label={`Carnet: ${carnet}`} />
           <InfoRow icon={GiGraduateCap} label={`Carrera: ${career}`} />
         </div>
-        <div className="flex justify-between mt-4 gap-2">
-          <button
-            onClick={handleViewProfile}
-            className="bg-secondary text-title font-info px-3 py-1 rounded-lg hover:bg-title hover:text-background transition text-sm cursor-pointer"
-          >
-            VER MÁS
-          </button>
-          <button
-            onClick={handleViewTalonario}
-            className="bg-primary text-white font-info px-3 py-1 rounded-lg hover:bg-secondary hover:text-title transition text-sm cursor-pointer"
-          >
-            TALONARIO
-          </button>
-        </div>
       </div>
     </div>
   );

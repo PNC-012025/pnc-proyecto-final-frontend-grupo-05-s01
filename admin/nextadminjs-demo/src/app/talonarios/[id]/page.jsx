@@ -66,11 +66,11 @@ const TalonarioAdminPage = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-background">
-      <h1 className="text-3xl font-titles text-title text-center uppercase mb-6">
+      <h1 className="text-3xl font-titles text-title text-center mb-6">
         Talonario de Pagos
       </h1>
 
-      <table className="w-full table-auto border text-sm font-info">
+      <table className="w-full table-auto border text-sm font-info text-foreground">
         <thead className="bg-gray-100 text-left">
           <tr>
             <th className="border p-2">Fecha Esperada</th>
@@ -91,7 +91,7 @@ const TalonarioAdminPage = () => {
                 {pago.status !== "PAGADO" ? (
                   <button
                     onClick={() => handleMarkAsPaid(pago.id)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
+                    className="bg-primary hover:bg-secondary hover:text-title  text-background cursor-pointer px-3 py-1 rounded"
                   >
                     Registrar Pago
                   </button>

@@ -22,6 +22,7 @@ const icons = {
   Reglamento: <FaExclamationCircle />,
   Solicitudes: <FaClipboardList />,
   Emprendedores: <FaUserFriends />,
+  "Re-stock": <FaBoxOpen />,
   "Mi perfil": <FaUser />,
   "Cerrar sesión": <FaSignOutAlt />,
 };
@@ -43,6 +44,7 @@ export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
   const adminItems = [
     { label: "Solicitudes", href: "/solicitudes" },
     { label: "Emprendedores", href: "/entrepreneurs" },
+    { label: "Re-stock", href: "/approverestock"},
   ];
 
   const menuItems = [
