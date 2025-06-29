@@ -13,7 +13,7 @@ const Page = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");      
-  const [filter2, setFilter2] = useState("");     
+  const [filter2, setFilter2] = useState("ACTIVO");     
   const [currentPage, setCurrentPage] = useState(1); 
   const itemsPerPage = 9;
 
