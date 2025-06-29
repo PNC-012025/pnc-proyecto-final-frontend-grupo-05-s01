@@ -13,7 +13,7 @@ const Page = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
 
-  const itemsPerPage = 12; // Puedes ajustar si quieres otro tamaño
+  const itemsPerPage = 12; 
 
   const fetchBrands = async (page = 0, searchTerm = "") => {
     setLoading(true);

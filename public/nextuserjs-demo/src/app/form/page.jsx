@@ -131,7 +131,7 @@ export default function RequestForm() {
         text: "✅ Tu solicitud fue enviada exitosamente.",
       });
 
-      // Resetea el formulario
+
       setFormData({
         nombre: "",
         apellido: "",
@@ -330,7 +330,6 @@ export default function RequestForm() {
           </div>
         </section>
 
-        {/* Campos adicionales del negocio */}
         {[
           {
             label: "¿Cuál es el nombre de tu emprendimiento?",
@@ -362,7 +361,6 @@ export default function RequestForm() {
           />
         ))}
 
-        {/* Logo de la brand*/}
         <div>
           <label className="block text-sm font-medium text-foreground">
             Logo del emprendimiento:
@@ -372,12 +370,10 @@ export default function RequestForm() {
             name="logo"
             accept="image/*"
             onChange={handleFileChange}
-            required
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md text-foreground"
           />
         </div>
 
-        {/* "aceptar terms and conditions" */}
         <div className="flex items-center">
           <input
             type="checkbox"
