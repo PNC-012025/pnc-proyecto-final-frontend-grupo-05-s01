@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });*/
 
 export const metadata: Metadata = {
-  title: "Mercauda",
+  title: "Mercaduca",
   description: "Project for Mercaduca",
   icons: {
     icon: "/logo.png", 
