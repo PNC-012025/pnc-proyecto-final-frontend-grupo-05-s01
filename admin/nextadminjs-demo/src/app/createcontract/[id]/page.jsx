@@ -2,6 +2,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
+import Swal from "sweetalert2";
 
 export default function CrearContrato() {
   const { id } = useParams();
@@ -54,7 +55,7 @@ export default function CrearContrato() {
     const { userId, amount, paymentMethod, paymentFrequency } = formData;
 
     if (!isFormValid()) {
-      alert("Por favor completa todos los campos.");
+      Swal.fire("Error", "Por favor completa todos los campos.", "error");
       return;
     }
 
@@ -72,32 +73,32 @@ export default function CrearContrato() {
         body: JSON.stringify(payload),
       });
 
-      alert("Contrato creado exitosamente");
+      Swal.fire("Éxito", "Productos aprobados correctamente.", "success");
       router.push(`/entrepreneurprofile/${userId}`);
     } catch (error) {
-      alert("Error al crear contrato:\n" + (error.message || error));
+      Swal.fire("Error", "Error al crear contrato:\n" + (error.message || error), "error");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4">
-      <h2 className="text-lg font-bold text-center">Crear Contrato</h2>
+    <div className="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4 mt-16">
+      <h2 className="text-lg font-bold text-center text-title font-titles">Crear Contrato</h2>
 
       <input
         name="amount"
         type="number"
         step="0.01"
         placeholder="Monto del Contrato"
-        className="w-full p-2 border rounded"
+        className="w-full p-2 border rounded text-foreground font-info"
         onChange={handleChange}
         value={formData.amount}
       />
 
       <select
         name="paymentMethod"
-        className="w-full p-2 border rounded"
+        className="w-full p-2 border rounded text-foreground font-info"
         onChange={handleChange}
         value={formData.paymentMethod}
       >
@@ -111,7 +112,7 @@ export default function CrearContrato() {
 
       <select
         name="paymentFrequency"
-        className="w-full p-2 border rounded"
+        className="w-full p-2 border rounded text-foreground font-info"
         onChange={handleChange}
         value={formData.paymentFrequency}
       >
@@ -129,7 +130,7 @@ export default function CrearContrato() {
         className={`w-full py-2 rounded ${
           !isFormValid() || isSubmitting
             ? "bg-gray-400 cursor-not-allowed"
-            : "mt-4 bg-secondary text-title font-info px-4 py-1 rounded-lg hover:bg-title hover:text-background transition text-sm"
+            : "mt-4 bg-secondary text-title font-info px-4 py-1 rounded-lg hover:bg-title hover:text-background transition cursor-pointer text-sm"
         }`}
       >
         {isSubmitting ? "Enviando..." : "Enviar"}
