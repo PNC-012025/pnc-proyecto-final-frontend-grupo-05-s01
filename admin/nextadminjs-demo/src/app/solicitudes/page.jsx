@@ -5,6 +5,7 @@ import { FaCheck, FaTimes, FaSortUp, FaSortDown } from "react-icons/fa";
 import { apiFetch } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import Spinner from "../components/Spinner";
+import Swal from "sweetalert2";
 
 const EntrepreneurCard = ({
   id,
@@ -129,6 +130,12 @@ export default function ApplicantsList() {
 
       await apiFetch(`/business-requests/${id}/${action}`, options);
       await fetchData();
+
+      if (action === "approve") {
+        Swal.fire("Éxito", "Solicitud aprobada correctamente.", "success");
+      }else{
+        Swal.fire("Error", "Solicitud rechazada.", "error");
+      }
     } catch (error) {
       console.error(`Error al ${action} solicitud ${id}`, error);
     } finally {
