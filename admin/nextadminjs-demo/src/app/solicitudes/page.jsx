@@ -35,7 +35,7 @@ const EntrepreneurCard = ({
       className="bg-card rounded-xl shadow-md p-4 flex justify-between items-center w-full cursor-pointer hover:shadow-lg transition"
     >
       <div>
-        <h3 className="font-bold text-lg text-title">{projectName}</h3>
+        <h3 className="font-bold font-info text-lg text-title">{projectName}</h3>
         <p className="text-sm font-info text-foreground">Nombre: {name}</p>
         <p className="text-sm font-info text-foreground">Carnet: {carnet}</p>
         <p className="text-sm font-info text-foreground">Carrera: {career}</p>
@@ -63,8 +63,8 @@ const EntrepreneurCard = ({
         </div>
       ) : (
         <span
-          className={`px-4 py-2 text-white text-sm font-bold rounded-md ${
-            status === "APROBADO" ? "bg-green-700" : "bg-red-500"
+          className={`px-4 py-2 text-white text-sm font-bold font-info rounded-md ${
+            status === "APROBADO" ? "bg-title" : "bg-red-700"
           }`}
         >
           {status}
@@ -161,17 +161,17 @@ const updateStatus = async (id, action) => {
   return (
     <section className="py-10 px-6">
       <h2 className="text-center text-2xl font-titles text-title font-bold mb-6 mt-4">
-        REVISA LAS NUEVOS POSIBLES EMPRENDEDORES!
+        ¡Revisa los nuevos posibles emprendedores! 
       </h2>
-      <p className="text-center text-sm text-gray-700 mb-6">
-        Recuerda: Revisar cuidadosamente el formulario de inscripción
+      <p className="text-center text-sm text-foreground font-info mb-6">
+        Recuerda revisar cuidadosamente el formulario de inscripción
       </p>
 
       {/* Tabs */}
       <div className="flex justify-center mb-8 gap-1">
         {["PENDIENTES", "APROBADAS", "RECHAZADAS"].map((tab) => {
           const isActive = activeTab === tab;
-          const baseClasses = "px-6 py-2 font-semibold rounded-t-lg transition";
+          const baseClasses = "px-6 py-2 font-info rounded-t-lg transition cursor-pointer";
           let colorClasses = "";
 
           if (tab === "PENDIENTES") {
@@ -203,11 +203,10 @@ const updateStatus = async (id, action) => {
         })}
       </div>
 
-      {/* Ordenamiento */}
       <div className="flex justify-end max-w-6xl mx-auto mb-4">
         <button
           onClick={() => setSortDirection((prev) => (prev === "desc" ? "asc" : "desc"))}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md text-sm font-medium text-gray-800 transition"
+          className="flex items-center gap-2 px-4 py-2 bg-card hover:border-card rounded-md text-sm font-medium text-gray-800 font-info transition"
         >
           {sortDirection === "desc" ? (
             <>
@@ -247,7 +246,7 @@ const updateStatus = async (id, action) => {
               />
             ))}
             {entrepreneurs.length === 0 && (
-              <p className="text-center col-span-2 text-gray-500">
+              <p className="text-center font-info col-span-2 text-foreground">
                 No hay elementos en esta sección.
               </p>
             )}
@@ -256,7 +255,7 @@ const updateStatus = async (id, action) => {
           {/* Paginación */}
           <div className="flex justify-center gap-4 mt-10">
             <button
-              className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+              className="px-4 py-2 bg-secondary text-title cursor-pointer font-info rounded disabled:opacity-50"
               onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
               disabled={page === 0}
             >
@@ -266,7 +265,7 @@ const updateStatus = async (id, action) => {
               Página {page + 1} de {totalPages}
             </span>
             <button
-              className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+              className="px-4 py-2 bg-secondary text-title cursor-pointer font-info rounded disabled:opacity-50"
               onClick={() => setPage((prev) => prev + 1)}
               disabled={page + 1 >= totalPages}
             >

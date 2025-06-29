@@ -73,19 +73,20 @@ const ProductosPendientesPage = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-background">
-      <h1 className="text-3xl font-titles text-title text-center uppercase mb-6">
+      <h1 className="text-3xl font-titles text-title text-center mb-6 mt-10">
         Productos Pendientes
       </h1>
 
       <div className="text-right mb-4">
         <button
-          onClick={handleApproveSelected}
-          disabled={selectedIds.length === 0}
-          className={`bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition ${
-            selectedIds.length === 0 ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          Procesar productos.
+
+            onClick={handleApproveSelected}
+            disabled={selectedIds.length === 0}
+            className={`bg-primary text-background px-4 py-2 rounded hover:bg-title font-info transition ${
+                selectedIds.length === 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            >
+            Aprobar seleccionados
         </button>
       </div>
 
@@ -94,19 +95,47 @@ const ProductosPendientesPage = () => {
           No hay productos pendientes para este emprendimiento.
         </p>
       ) : (
-        <>
-          <div className="overflow-x-auto mb-4">
-            <table className="min-w-full table-auto border text-sm font-info">
-              <thead className="bg-gray-100 text-left">
-                <tr>
-                  <th className="border p-2">✔</th>
-                  <th className="border p-2">Imagen</th>
-                  <th className="border p-2">Producto</th>
-                  <th className="border p-2">Categoría</th>
-                  <th className="border p-2">Descripción</th>
-                  <th className="border p-2">Stock</th>
-                  <th className="border p-2">Precio</th>
-                  <th className="border p-2">Estado</th>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto border text-sm font-info">
+            <thead className="bg-gray-100 text-foreground text-left">
+              <tr>
+                <th className="border p-2">✔</th>
+                <th className="border p-2">Imagen</th>
+                <th className="border p-2">Producto</th>
+                <th className="border p-2">Categoría</th>
+                <th className="border p-2">Descripción</th>
+                <th className="border p-2">Stock</th>
+                <th className="border p-2">Precio</th>
+                <th className="border p-2">Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {productos.map((prod) => (
+                <tr key={prod.id}>
+                  <td className="border p-2 text-center">
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(prod.id)}
+                      onChange={() => toggleCheckbox(prod.id)}
+                    />
+                  </td>
+                  <td className="border p-2">
+                    <img
+                      src={prod.urlImage}
+                      alt={prod.name}
+                      className="w-16 h-16 object-cover rounded"
+                    />
+                  </td>
+                  <td className="border p-2">{prod.name}</td>
+                  <td className="border p-2">{prod.categoryName}</td>
+                  <td className="border p-2">{prod.description}</td>
+                  <td className="border p-2">{prod.stock}</td>
+                  <td className="border p-2">
+                    {prod.price?.price != null
+                      ? `$${Number(prod.price.price).toFixed(2)}`
+                      : "-"}
+                  </td>
+                  <td className="border p-2">{prod.status}</td>
                 </tr>
               </thead>
               <tbody>

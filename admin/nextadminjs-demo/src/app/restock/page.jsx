@@ -1,7 +1,9 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api";
+import Swal from "sweetalert2";
 
 const RestockForm = () => {
   const router = useRouter();
@@ -59,7 +61,13 @@ const RestockForm = () => {
         body: formData,
       });
 
-      alert("Producto enviado para ser aprobado por un administrador.");
+      await Swal.fire({
+        title: "¡Enviado!",
+        text: "Producto enviado para ser aprobado por un administrador.",
+        icon: "success",
+        confirmButtonText: "Entendido",
+      });
+
       router.push("/my-products");
     } catch (err) {
       console.error(err);
@@ -74,22 +82,22 @@ const RestockForm = () => {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
-      <h1 className="text-center text-2xl font-bold text-title mb-2 uppercase">
+      <h1 className="text-center text-2xl font-bold text-title mb-2 font-titles">
         Formulario de Entrega de Productos
       </h1>
       <p className="text-center text-foreground mb-1 font-info">
         Recuerda: Cada vez que desees hacer renovación de stock, debes completar previamente esta ficha de registro de productos y enviarla.
       </p>
-      <p className="text-center font-bold text-sm mb-8 text-foreground">
+      <p className="text-center font-info font-bold text-sm mb-8 text-foreground">
         Se solicita llevar el producto etiquetado.
       </p>
 
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md space-y-6">
-        <h2 className="font-bold text-title text-lg uppercase">Detalles de productos</h2>
+        <h2 className="font-bold font-info text-title text-lg uppercase">Detalles de productos</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block mb-1 font-info">Nombre del producto</label>
+            <label className="block mb-1 text-foreground font-info">Nombre del producto</label>
             <input
               type="text"
               value={name}
@@ -101,7 +109,7 @@ const RestockForm = () => {
           </div>
 
           <div>
-            <label className="block mb-1 font-info">Cantidad</label>
+            <label className="block mb-1 text-foreground font-info">Cantidad</label>
             <input
               type="number"
               min="1"
@@ -113,7 +121,7 @@ const RestockForm = () => {
           </div>
 
           <div>
-            <label className="block mb-1 font-info">Detalles del producto</label>
+            <label className="block mb-1 text-foreground font-info">Detalles del producto</label>
             <input
               type="text"
               value={description}
@@ -125,7 +133,7 @@ const RestockForm = () => {
           </div>
 
           <div>
-            <label className="block mb-1 font-info">Categoría</label>
+            <label className="block mb-1 text-foreground font-info">Categoría</label>
             <select
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
@@ -142,7 +150,7 @@ const RestockForm = () => {
           </div>
 
           <div>
-            <label className="block mb-1 font-info">Precio</label>
+            <label className="block mb-1 text-foreground font-info">Precio</label>
             <input
               type="number"
               step="0.01"
@@ -157,7 +165,7 @@ const RestockForm = () => {
         </div>
 
         <div className="mt-4">
-          <label className="block mb-1 font-info">Seleccione una imagen</label>
+          <label className="block mb-1 text-foreground font-info">Seleccione una imagen</label>
           <input
             type="file"
             accept="image/*"
@@ -169,7 +177,7 @@ const RestockForm = () => {
 
         <button
           type="submit"
-          className="mt-6 bg-secondary text-title font-bold px-6 py-2 rounded-lg hover:bg-title hover:text-white transition uppercase"
+          className="mt-6 font-info bg-secondary text-title px-6 py-2 rounded-lg hover:bg-title hover:text-white transition cursor-pointer"
         >
           Agregar producto
         </button>

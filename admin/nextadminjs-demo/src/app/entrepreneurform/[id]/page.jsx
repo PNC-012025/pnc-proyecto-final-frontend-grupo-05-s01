@@ -27,15 +27,15 @@ export default function EntrepreneurFormView() {
   return (
     <main className="bg-background min-h-screen flex justify-center px-4 py-10">
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-5xl border border-gray-200 space-y-6">
-        <h1 className="text-3xl font-bold text-center text-title">Formulario de registro</h1>
-        <p className="text-center text-sm text-foreground">
+        <h1 className="text-3xl font-bold text-center font-titles text-title">Formulario de registro</h1>
+        <p className="text-center text-sm font-info text-foreground">
           El siguiente formulario ha sido completado por un nuevo emprendedor, conoce más de su marca
         </p>
-        <p className="text-center text-sm text-foreground">
+        <p className="text-center text-sm font-info text-foreground">
           Recuerda revisar cuidadosamente cada uno de los campos. Si todo está correcto, puedes aprobarlo para que se muestre en la sección de emprendedores. Si no, puedes rechazarlo y dejar un comentario para el emprendedor.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-sm font-info">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-sm font-info text-foreground">
           <p><strong>Nombre:</strong> {data.userName}</p>
           <p><strong>Apellido:</strong> {data.userLastName}</p>
           <p><strong>Sexo:</strong> {data.userGender}</p>
@@ -46,7 +46,7 @@ export default function EntrepreneurFormView() {
           <p><strong>Carrera:</strong> {data.majorName}</p>
         </div>
 
-        <div className="space-y-2 text-sm font-info">
+        <div className="space-y-2 text-sm font-info text-foreground">
           <p><strong>Nombre del emprendimiento:</strong> {data.businessName}</p>
           <p><strong>Descripción:</strong> {data.description}</p>
           <p><strong>Sector:</strong> {data.sector}</p>
@@ -59,8 +59,8 @@ export default function EntrepreneurFormView() {
 
         {data.urlLogo && (
           <div>
-            <p className="font-bold text-sm">Logo del emprendimiento:</p>
-            <img src={data.urlLogo} alt="Logo" className="w-32 h-32 object-contain border" />
+            <p className="font-bold  text-foreground font-info text-sm">Logo del emprendimiento:</p>
+            <img src={data.urlLogo} alt="Logo" className="w-32 h-32 object-contain" />
           </div>
         )}
       </div>
