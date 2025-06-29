@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import Swal from "sweetalert2";
+import Spinner from "../../components/Spinner";
 
 const ProductosPendientesPage = () => {
   const { id } = useParams();
@@ -60,7 +61,7 @@ const ProductosPendientesPage = () => {
     }
   };
 
-  if (loading) return <p className="text-center mt-10">Cargando productos...</p>;
+  if (loading) return <Spinner />;
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-background">
