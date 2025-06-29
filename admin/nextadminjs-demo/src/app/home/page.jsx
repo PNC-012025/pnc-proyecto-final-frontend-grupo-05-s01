@@ -12,12 +12,7 @@ import { MdDone } from "react-icons/md";
 import { WiStars } from "react-icons/wi";
 import ProductInfo from "../components/Products";
 
-import { apiFetch } from "@/lib/api";
-
-import { useEffect } from "react";
-{
-  /*Component for each step of restock process */
-}
+{/*Component for each step of restock process */}
 const Step = ({ Icon, title, text, children }) => {
   if (!Icon || typeof Icon !== "function") {
     console.error("El icono debe ser un componente válido de React");
@@ -35,24 +30,6 @@ const Step = ({ Icon, title, text, children }) => {
 };
 
 export default function Home() {
-  useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await apiFetch("/business-requests");
-      console.log("Response completa:", response); // <-- Aquí clave
-      if (!response.ok) {
-        throw new Error(`Error fetching data: ${response.status} ${response.statusText}`);
-      }
-      const data = await response.json();
-      console.log("Business requests recibidas:", data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  fetchData();
-}, []);
-
   return (
     <main className="flex-grow">
       {/*Merca image section*/}
@@ -220,9 +197,6 @@ export default function Home() {
               title="1. Completar y enviar"
               text="Ficha de registro de productos."
             >
-              <button className="mt-4 bg-secondary text-title px-4 py-2 rounded-md font-info font-semibold text-sm hover:bg-title hover:text-background transition">
-                Ficha de registro
-              </button>
             </Step>
             <Step
               Icon={FaUserCheck}
