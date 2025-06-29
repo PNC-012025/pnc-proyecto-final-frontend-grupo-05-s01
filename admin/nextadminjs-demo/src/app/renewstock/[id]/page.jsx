@@ -10,7 +10,7 @@ const ProductosPendientesPage = () => {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedIds, setSelectedIds] = useState([]);
-  const [remark, setRemark] = useState(""); // NUEVO: comentario del usuario
+  const [remark, setRemark] = useState("");
 
   const fetchProductos = async () => {
     try {

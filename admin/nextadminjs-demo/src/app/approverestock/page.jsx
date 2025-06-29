@@ -34,6 +34,7 @@ const Page = () => {
         queryParams.append("tienenProductosPendientes", "true");
 
         const endpoint = `/admin/business/approved?${queryParams.toString()}`;
+        console.log("Fetching brands from:", endpoint);
         const data = await apiFetch(endpoint);
 
         setBrands(data.content); 

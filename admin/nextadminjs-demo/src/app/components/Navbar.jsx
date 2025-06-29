@@ -1,11 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Sidebar from "./Sidebar";
 import Image from "next/image";
 import { apiFetch } from "@/lib/api";
 
 export default function Navbar() {
+    const pathname = usePathname();
+    if (pathname === "/auth/login") return null;
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [role, setRole] = useState(null);
     const [loadingRole, setLoadingRole] = useState(true);
