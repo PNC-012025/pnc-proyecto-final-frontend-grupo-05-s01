@@ -7,6 +7,8 @@ import { MdDone } from "react-icons/md";
 import { WiStars } from "react-icons/wi";
 import ProductInfo from "../components/Products";
 
+import { apiFetch } from "@/lib/api";
+
 {/*Component for each step of restock process */}
 const Step = ({ Icon, title, text, children }) => {
   if (!Icon || typeof Icon !== "function") {
@@ -25,6 +27,22 @@ const Step = ({ Icon, title, text, children }) => {
 };
 
 export default function Home() {
+
+  // Fetch data from the API
+  const fetchData = async () => {
+    try {
+      const response = await apiFetch("/business-requests");
+      if (!response.ok) {
+        throw new Error("Error fetching data");
+      }
+      const data = await response.json();
+      console.log("Fetched data:", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return null;
+    }
+  }
   return (
     <main className="flex-grow">
       {/*Merca image section*/}
