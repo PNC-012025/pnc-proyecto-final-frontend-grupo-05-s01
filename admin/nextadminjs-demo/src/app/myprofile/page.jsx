@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { apiFetch } from "@/lib/api";
+import Spinner from "../components/Spinner";
 
 const MyProfile = () => {
   const router = useRouter();
   const [businessData, setBusinessData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const handleEditProfile = () => {
     router.push("/edit-profile");
@@ -15,20 +18,11 @@ const MyProfile = () => {
   useEffect(() => {
     const fetchBusinessProfile = async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/business/profile", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include", 
-        });
-
-        if (!res.ok) throw new Error("Error al obtener el perfil del negocio");
-
-        const data = await res.json();
+        const data = await apiFetch("/business/profile");
         setBusinessData(data);
-      } catch (error) {
-        console.error("Error al cargar perfil del negocio:", error);
+      } catch (err) {
+        console.error("Error al cargar perfil del negocio:", err);
+        setError("No se pudo cargar el perfil del negocio.");
       } finally {
         setLoading(false);
       }
@@ -37,17 +31,19 @@ const MyProfile = () => {
     fetchBusinessProfile();
   }, []);
 
-  if (loading)
+  if (loading) return <Spinner />;
+
+  if (error)
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        Cargando perfil del negocio...
-      </div>
+      <p className="text-center text-red-500 mt-20">
+        {error}
+      </p>
     );
 
   if (!businessData)
     return (
       <div className="text-center mt-10">
-        No se pudo cargar el perfil del negocio.
+        Perfil del negocio no disponible.
       </div>
     );
 
@@ -60,22 +56,18 @@ const MyProfile = () => {
             <div className="flex items-center space-x-4">
               <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-200 overflow-hidden">
                 <img
-                  src={
-                    businessData.urlLogo
-                      ? businessData.urlLogo
-                      : "/user-default.png"
-                  }
+                  src={businessData.urlLogo || "/user-default.png"}
                   alt="Logo del negocio"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h2 className="text-xl font-semibold text-gray-600">
+              <h2 className="text-titles font-semibold text-foreground uppercase">
                 {businessData.businessName || "Nombre de Marca"}
               </h2>
             </div>
             <button
               onClick={handleEditProfile}
-              className="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-dark transition"
+              className="bg-secondary text-title px-4 py-2 rounded-md hover:bg-title transition hover:text-background"
             >
               EDITAR PERFIL
             </button>

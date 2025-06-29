@@ -1,17 +1,46 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "./Sidebar";
 import Image from "next/image";
+import { apiFetch } from "@/lib/api";
 
 export default function Navbar() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [role, setRole] = useState(null);
+    const [loadingRole, setLoadingRole] = useState(true);
     const router = useRouter();
-
-    const role = "user"; //it can be changed to "admin" to test other options in the menu
 
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
     const closeSidebar = () => setIsSidebarOpen(false);
+
+    useEffect(() => {
+    async function fetchRole() {
+      try {
+        const data = await apiFetch("/users/profile/role");
+        if (data && data.role) {
+          setRole(data.role);
+        } else {
+          setRole(null);
+        }
+      } catch (err) {
+        console.error("Error al obtener el rol", err);
+        setRole(null);
+      } finally {
+        setLoadingRole(false);
+      }
+    }
+    fetchRole();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await apiFetch("/auth/logout", { method: "POST" });
+      router.replace("/auth/login");
+    } catch (err) {
+      console.error("Error al cerrar sesión", err);
+    }
+  };
 
     return (
         <>
@@ -34,8 +63,15 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            {/*Sidebar call */}
-            <Sidebar role={role} isOpen={isSidebarOpen} onClose={closeSidebar} />
+            {/*Sidebar call depending the role giving by the endpoint of the API */}
+            {!loadingRole && (
+            <Sidebar 
+            role={role} 
+            isOpen={isSidebarOpen} 
+            onClose={closeSidebar}
+            handleLogout={handleLogout}
+            />
+            )}
         </>
     );
 }

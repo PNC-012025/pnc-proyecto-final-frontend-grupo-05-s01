@@ -16,7 +16,7 @@ import {
 const icons = {
   Inicio: <FaHome />,
   "Mis productos": <FaBoxOpen />,
-  "Re-stock": <FaStore />,
+  "Crear producto": <FaStore />,
   Contrato: <FaFileAlt />,
   Talonarios: <FaMoneyCheckAlt />,
   Reglamento: <FaExclamationCircle />,
@@ -28,23 +28,28 @@ const icons = {
 
 export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
   const commonItems = [
-    { label: "Inicio", href: "/" },
-    { label: "Re-stock", href: "/restock" },
-    { label: "Talonarios", href: "/talonarios" },
-    { label: "Reglamento", href: "/reglamento" },
+    { label: "Inicio", href: "/home" },
+    { label: "Reglamento", href: "./policies" },
   ];
 
   const userItems = [
-    { label: "Mis productos", href: "/productos" },
-    { label: "Contrato", href: "/contrato" },
+    { label: "Talonarios", href: "/talonario" },
+    { label: "Mi perfil", href: "/myprofile" },
+    { label: "Mis productos", href: "/my-products" },
+    { label: "Contrato", href: "/contract" },
+    { label: "Crear producto", href: "/restock" },
   ];
 
   const adminItems = [
     { label: "Solicitudes", href: "/solicitudes" },
-    { label: "Emprendedores", href: "/emprendedores" },
+    { label: "Emprendedores", href: "/entrepreneurs" },
   ];
 
-  const menuItems = [...commonItems, ...(role === "user" ? userItems : adminItems)];
+  const menuItems = [
+    ...commonItems, 
+    ...(role === "ROLE_EMPRENDEDOR" ? userItems : []),
+    ...(role === "ROLE_ADMIN" ? adminItems : []),
+];
 
   return (
     <div
@@ -77,17 +82,6 @@ export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
             </Link>
           </li>
         ))}
-
-        <li>
-          <Link
-            href="/myprofile"
-            onClick={onClose}
-            className="flex items-center space-x-3 hover:text-title transition-colors"
-          >
-            <span className="text-lg">{icons["Mi perfil"]}</span>
-            <span>Mi perfil</span>
-          </Link>
-        </li>
 
         <li>
           <div
