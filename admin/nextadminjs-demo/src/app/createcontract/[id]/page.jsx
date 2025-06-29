@@ -73,7 +73,7 @@ export default function CrearContrato() {
         body: JSON.stringify(payload),
       });
 
-      Swal.fire("Éxito", "Productos aprobados correctamente.", "success");
+      Swal.fire("Éxito", "Contrato creado correctamente.", "success");
       router.push(`/entrepreneurprofile/${userId}`);
     } catch (error) {
       Swal.fire("Error", "Error al crear contrato:\n" + (error.message || error), "error");
