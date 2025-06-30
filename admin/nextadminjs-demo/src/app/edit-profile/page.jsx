@@ -1,20 +1,21 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api";
+import Swal from "sweetalert2";
 
 const EditProfile = () => {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
-    priceRange: '',
-    facebook: '',
-    instagram: '',
-    description: '',
-    phone: '',
+    priceRange: "",
+    facebook: "",
+    instagram: "",
+    description: "",
+    phone: "",
     logo: null,
-    previewPhoto: '/user-default.png'
+    previewPhoto: "/user-default.png",
   });
 
   const [loading, setLoading] = useState(true);
@@ -22,22 +23,14 @@ const EditProfile = () => {
   useEffect(() => {
     const fetchBusiness = async () => {
       try {
-        const res = await apiFetch("/business/profile", {
-          method: "GET",
-          credentials: "include",
-        });
-
-        if (!res.ok) throw new Error("Error al obtener negocio");
-
-        const data = await res.json();
-        setFormData(prev => ({
+        const data = await apiFetch("/business/profile");
+        setFormData((prev) => ({
           ...prev,
-          priceRange: data.priceRange || '',
-          facebook: data.facebook || '',
-          instagram: data.instagram || '',
-          description: data.description || '',
-          phone: data.phone || '',
-          previewPhoto: data.urlLogo || '/user-default.png'
+          priceRange: data.priceRange || "",
+          facebook: data.facebook || "",
+          instagram: data.instagram || "",
+          phone: data.phone || "",
+          previewPhoto: data.urlLogo || "/user-default.png",
         }));
       } catch (error) {
         console.error("Error cargando datos del negocio:", error);
@@ -51,17 +44,17 @@ const EditProfile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData(prev => ({ ...prev, logo: file }));
+      setFormData((prev) => ({ ...prev, logo: file }));
 
       const reader = new FileReader();
       reader.onload = (event) => {
-        setFormData(prev => ({ ...prev, previewPhoto: event.target.result }));
+        setFormData((prev) => ({ ...prev, previewPhoto: event.target.result }));
       };
       reader.readAsDataURL(file);
     }
@@ -81,44 +74,56 @@ const EditProfile = () => {
     }
 
     try {
-      const res = await fetch("/business/profile", {
+      await apiFetch("/business/profile", {
         method: "PUT",
-        credentials: "include",
-        body: form
+        body: form,
       });
 
-      if (!res.ok) throw new Error("Error al actualizar negocio");
+      await Swal.fire({
+        icon: "success",
+        title: "¡Perfil actualizado!",
+        text: "Tus cambios se guardaron correctamente.",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "OK",
+      });
 
-      console.log("Redirigiendo a /myprofile");
-
-      alert("¡Perfil actualizado correctamente!");
       router.replace("/myprofile");
     } catch (error) {
       console.error("Error al enviar datos:", error);
-      alert("Hubo un error al guardar los cambios.");
+
+      await Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un error al guardar los cambios. Por favor, inténtalo de nuevo.",
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Entendido",
+      });
     }
   };
 
-  if (loading) return <div className="text-center py-10">Cargando datos...</div>;
+  if (loading)
+    return <div className="text-center py-10">Cargando datos...</div>;
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
         <section className="mb-8">
-          <h1 className="text-3xl font-titles font-bold text-foreground mb-8 text-center">EDITAR MI PERFIL</h1>
+          <h1 className="text-3xl font-titles font-bold text-foreground mb-8 text-center">
+            EDITAR MI PERFIL
+          </h1>
 
           <div className="flex flex-col items-center">
             <div className="w-32 h-32 rounded-full bg-gray-200 overflow-hidden mb-4">
-              <img 
-                src={formData.previewPhoto} 
-                alt="Foto de perfil" 
+              <img
+                src={formData.previewPhoto}
+                alt="Foto de perfil"
                 className="w-full h-full object-cover"
               />
             </div>
             <label className="cursor-pointer bg-secondary font-bold text-foreground px-4 py-2 rounded-md hover:bg-primary-dark transition">
               CAMBIAR FOTO
-              <input 
-                type="file" 
+              <input
+                type="file"
                 onChange={handlePhotoUpload}
                 className="hidden"
                 accept="image/*"
@@ -130,7 +135,9 @@ const EditProfile = () => {
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1">Rango de precio:</label>
+              <label className="block text-sm font-medium text-foreground mb-1">
+                Rango de precio:
+              </label>
               <select
                 name="priceRange"
                 value={formData.priceRange}
@@ -146,7 +153,9 @@ const EditProfile = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1">Link Instagram:</label>
+              <label className="block text-sm font-medium text-foreground mb-1">
+                Link Instagram:
+              </label>
               <input
                 type="url"
                 name="instagram"
@@ -157,8 +166,11 @@ const EditProfile = () => {
               />
             </div>
           </div>
+
           <div className="mb-6">
-            <label className="block text-sm font-medium text-foreground mb-1">Link Facebook:</label>
+            <label className="block text-sm font-medium text-foreground mb-1">
+              Link Facebook:
+            </label>
             <input
               type="url"
               name="facebook"
@@ -170,7 +182,9 @@ const EditProfile = () => {
           </div>
 
           <div className="mb-6">
-            <label className="block text-sm font-medium text-foreground mb-1">Número de teléfono:</label>
+            <label className="block text-sm font-medium text-foreground mb-1">
+              Número de teléfono:
+            </label>
             <input
               type="text"
               name="phone"
@@ -181,26 +195,10 @@ const EditProfile = () => {
             />
           </div>
 
-          <div className="mb-8">
-            <label className="block text-sm font-medium text-foreground mb-1">Descripción:</label>
-            <p className="text-xs text-gray-500 mb-2">Cuéntanos más sobre tu marca</p>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              maxLength={275}
-              rows={4}
-              className="w-full p-2 border border-gray-300 rounded-md"
-            />
-            <p className="text-xs text-gray-500 text-right">
-              {formData.description.length}/275 caracteres
-            </p>
-          </div>
-
           <div className="flex justify-center">
             <button
               type="submit"
-              className=" bg-secondary font-bold text-foreground px-8 py-3 rounded-lg hover:bg-title transition hover:text-background"
+              className="bg-secondary font-bold text-foreground px-8 py-3 rounded-lg hover:bg-title transition hover:text-background"
             >
               GUARDAR CAMBIOS
             </button>
