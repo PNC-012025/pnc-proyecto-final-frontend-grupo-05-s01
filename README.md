@@ -42,9 +42,9 @@ Este sistema web busca digitalizar y optimizar la gestión del local, facilitand
 
 ---
 
-## 👥 Roles y funcionalidades
+## Roles y funcionalidades
 
-### 👤 Estudiante / Emprendedor
+### Estudiante / Emprendedor
 
 - Enviar solicitud de puesto.
 - Ver estado de solicitud.
