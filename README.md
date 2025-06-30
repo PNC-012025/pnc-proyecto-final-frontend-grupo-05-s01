@@ -10,7 +10,7 @@ Este sistema web busca digitalizar y optimizar la gestión del local, facilitand
 ## Deployment
 
 - **Frontend todo público (Next.js):** https://pnc-proyecto-final-frontend-grupo-0-two.vercel.app/
--  **Frontend usuarios (Next.js):**https://pnc-proyecto-final-frontend-grupo-0-indol.vercel.app/
+-  **Frontend usuarios (Next.js):** https://pnc-proyecto-final-frontend-grupo-0-indol.vercel.app/
 
 ---
 
