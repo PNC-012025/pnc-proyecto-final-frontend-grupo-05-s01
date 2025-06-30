@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   FaHome,
@@ -28,6 +29,25 @@ const icons = {
 };
 
 export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
+  const sidebarRef = useRef(null);
+
+  // Detectar click fuera
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        onClose();
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, onClose]);
+
   const commonItems = [
     { label: "Inicio", href: "/home" },
     { label: "Reglamento", href: "./policies" },
@@ -44,22 +64,23 @@ export default function Sidebar({ role, isOpen, onClose, handleLogout }) {
   const adminItems = [
     { label: "Solicitudes", href: "/solicitudes" },
     { label: "Emprendedores", href: "/entrepreneurs" },
-    { label: "Re-stock", href: "/approverestock"},
+    { label: "Re-stock", href: "/approverestock" },
   ];
 
   const menuItems = [
-    ...commonItems, 
+    ...commonItems,
     ...(role === "ROLE_EMPRENDEDOR" ? userItems : []),
     ...(role === "ROLE_ADMIN" ? adminItems : []),
-];
+  ];
 
   return (
     <div
+      ref={sidebarRef}
       className={`fixed top-0 left-0 h-full w-64 bg-card shadow-md rounded-tr-2xl rounded-br-2xl transform transition-transform duration-300 z-50 ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <div 
+      <div
         className="h-20 px-4 flex items-center gap-3 border-b font-info cursor-pointer font-bold text-primary hover:text-title"
         onClick={onClose}
       >
