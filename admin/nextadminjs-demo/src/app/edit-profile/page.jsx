@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
+import { apiFetch } from "@/lib/api";
 
 const EditProfile = () => {
   const router = useRouter();
@@ -21,7 +22,7 @@ const EditProfile = () => {
   useEffect(() => {
     const fetchBusiness = async () => {
       try {
-        const res = await fetch("/business/profile", {
+        const res = await apiFetch("/business/profile", {
           method: "GET",
           credentials: "include",
         });
