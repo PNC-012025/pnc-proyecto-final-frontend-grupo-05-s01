@@ -72,10 +72,10 @@ const ContractView = () => {
         <div className="mb-6 font-info">
           <h2 className="font-semibold text-title mb-2">Monto y forma de pago:</h2>
           <p className="font-info text-foreground mb-2">
-            <strong>Frecuencia de pago:</strong> {contract.kindOfPayment || "Mensual"}
+            <strong>Frecuencia de pago:</strong> {contract.kindOfPayment}
           </p>
           <p className="text-foreground mb-2">
-            <strong>Método de pago:</strong> {contract.paymentMethod || "Efectivo"}
+            <strong>Método de pago:</strong> {contract.paymentMethod}
           </p>
         </div>
 
