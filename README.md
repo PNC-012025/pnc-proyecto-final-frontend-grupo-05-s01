@@ -14,10 +14,15 @@ Este sistema web busca digitalizar y optimizar la gestión del local, facilitand
 
 ---
 
-## Usuario de prueba (Emprendedor)
+## Usuario para Testing (Emprendedor)
 
 - User: 00117222@uca.edu.sv
 - Password: dc1f99b4
+
+## Usuario para Testing (Administrador)
+
+- User: admin@mercaduca.com
+- Password: superSegura123!
 
 ## Objetivos del sistema
 
