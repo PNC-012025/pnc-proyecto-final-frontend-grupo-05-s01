@@ -35,10 +35,10 @@ Este sistema web busca digitalizar y optimizar la gestión del local, facilitand
 
 ## Tecnologías utilizadas
 
-| Capa         | Tecnología           |
-|--------------|----------------------|
-| Frontend     | Next + Tailwind CSS |
-| Deploy       | Vercel (frontend)  |
+| Capa         | Tecnología                       |
+|--------------|----------------------------------|
+| Frontend     | Next + Tailwind CSS + SweetAlert2|
+| Deploy       | Vercel (frontend)                |
 
 ---
 
@@ -74,5 +74,31 @@ Este sistema web busca digitalizar y optimizar la gestión del local, facilitand
 - Usuarios (emprendedores y administradores)
 
 ---
+
+## Instrucciones de compilación
+
+Este proyecto incluye dos interfaces separadas:
+- `nextadminjs-demo`: Panel para **usuarios y administradores**
+- `nextuserjs-demo`: Interfaz para **emprendedores/estudiantes**
+
+> Nota: **Requiere que el backend esté ejecutándose**. Este se puede encontrar aquí:  https://github.com/PNC-012025/pnc-proyecto-final-grupo-05-s01.git
+
+Cómo ejecutar este proyecto localmente:
+### 1. Clonar el repositorio
+### 2. Instalar dependencias
+Se debe ingresar a cada carpeta por separado (nextadminjs-demo y/o nextuserjs-demo) y ejecutar npm install.
+### 3. Crea el archivo .env.local
+Dentro de cada carpeta (nextadminjs-demo y/o nextuserjs-demo) crear un archivo .env.local con la siguiente variable: **NEXT_PUBLIC_API_BASE_URL=http://localhost:8080/api**
+
+Asegúrarse de que el backend esté corriendo en ese puerto (8080).
+### 4. Ejecutar la aplicación
+Asegúrarse de estar dentro de una de las carpetas (nextadminjs-demo o nextuserjs-demo) y ejecutar: **npm run dev** 
+
+Después de eso, en la terminal aparecerá una dirección similar a: **http://localhost:3000** . 
+
+Presionar Ctrl + clic izquierdo sobre ese enlace para abrirlo en el navegador.
+
+> Nota: **Es importante realizar los pasos anteriores en ambas carpetas para poder acceder a todas las funcionalidades de la página web**
+
 
 
