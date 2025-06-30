@@ -82,14 +82,14 @@ export default function RequestForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!logoFile) {
+    /*if (!logoFile) {
       Swal.fire({
         icon: "warning",
         title: "Logo requerido",
         text: "Por favor selecciona un logo antes de enviar.",
       });
       return;
-    }
+    }*/
 
     Swal.fire({
       title: "Enviando...",
@@ -118,7 +118,9 @@ export default function RequestForm() {
       form.append("facebook", formData.facebook);
       form.append("instagram", formData.instagram);
       form.append("phone", formData.telefono);
-      form.append("logo", logoFile);
+      if(logoFile){
+        form.append("logo", logoFile);
+      }
 
       await apiFetch("/business-requests", {
         method: "POST",
@@ -348,8 +350,8 @@ export default function RequestForm() {
             label: "¿En qué rango de precios se encuentran los productos?",
             name: "rangoPrecios",
           },
-          { label: "Link de tu perfil en Facebook", name: "facebook" },
-          { label: "Link de tu perfil en Instagram", name: "instagram" },
+          { label: "Link de tu perfil en Facebook", name: "facebook", required: false,},
+          { label: "Link de tu perfil en Instagram", name: "instagram", required: false, },
           { label: "Número de tu teléfono celular", name: "telefono" },
         ].map((field) => (
           <InputField
@@ -358,6 +360,7 @@ export default function RequestForm() {
             name={field.name}
             value={formData[field.name]}
             onChange={handleChange}
+            required={field.required !== false}
           />
         ))}
 
@@ -407,6 +410,7 @@ function InputField({
   onChange,
   type = "text",
   placeholder = "",
+  required = true,
 }) {
   return (
     <div>
@@ -418,13 +422,14 @@ function InputField({
         name={name}
         value={value}
         onChange={onChange}
-        required
+        required={required}
         className="mt-1 block w-full p-2 border border-gray-300 rounded-md text-foreground"
         placeholder={placeholder}
       />
     </div>
   );
 }
+
 
 function SelectField({ label, name, options, value, onChange }) {
   return (
