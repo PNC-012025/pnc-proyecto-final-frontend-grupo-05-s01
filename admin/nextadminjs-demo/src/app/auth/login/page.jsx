@@ -2,10 +2,13 @@
 
 import React from "react";
 import Image from "next/image";
-import { apiFetch } from '@/lib/api';
-import Swal from 'sweetalert2';
+import { apiFetch } from "@/lib/api";
+import Swal from "sweetalert2";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useState } from "react";
 
 export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,36 +19,35 @@ export default function LoginPage() {
 
     if (!email || !password) {
       Swal.fire({
-        icon: 'warning',
-        title: 'Campos incompletos',
-        text: 'Por favor, completa todos los campos.',
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Por favor, completa todos los campos.",
       });
       return;
     }
 
     try {
-      await apiFetch('/auth/login', {
-        method: 'POST',
+      await apiFetch("/auth/login", {
+        method: "POST",
         body: JSON.stringify({ username: email, password }),
       });
 
       Swal.fire({
-        icon: 'success',
-        title: '¡Bienvenido!',
-        text: 'Inicio de sesión exitoso',
+        icon: "success",
+        title: "¡Bienvenido!",
+        text: "Inicio de sesión exitoso",
         timer: 1500,
-        showConfirmButton: false
+        showConfirmButton: false,
       });
 
       setTimeout(() => {
-        window.location.href = '/home';
+        window.location.href = "/home";
       }, 1500);
-      
     } catch (err) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error al iniciar sesión',
-        text: err.message || 'Error inesperado al iniciar sesión',
+        icon: "error",
+        title: "Error al iniciar sesión",
+        text: err.message || "Error inesperado al iniciar sesión",
       });
     }
   };
@@ -88,7 +90,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <div>
+          <div className="relative">
             <label
               htmlFor="password"
               className="block text-sm font-info font-medium text-foreground mb-1"
@@ -96,13 +98,20 @@ export default function LoginPage() {
               Contraseña
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               name="password"
               placeholder="********"
-              className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent pr-10"
               required
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-9 text-gray-500 hover:text-primary"
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
           </div>
 
           <button
