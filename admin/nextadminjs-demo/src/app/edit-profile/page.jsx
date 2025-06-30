@@ -21,7 +21,7 @@ const EditProfile = () => {
   useEffect(() => {
     const fetchBusiness = async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/business/profile", {
+        const res = await fetch("/business/profile", {
           method: "GET",
           credentials: "include",
         });
@@ -80,7 +80,7 @@ const EditProfile = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:8080/api/business/profile", {
+      const res = await fetch("/business/profile", {
         method: "PUT",
         credentials: "include",
         body: form
