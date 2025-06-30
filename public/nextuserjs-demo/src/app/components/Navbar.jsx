@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 export default function Navbar() {
   const pathname = usePathname();
-    if (pathname === "/auth/login") return null;
+  if (pathname === "/auth/login") return null;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
 
@@ -18,7 +18,10 @@ export default function Navbar() {
   };
 
   const handleLoginRedirect = () => {
-    router.push("/auth/login");
+    window.open(
+      "https://pnc-proyecto-final-frontend-grupo-0-indol.vercel.app/auth/login",
+      "_blank"
+    );
     setIsMobileMenuOpen(false);
   };
 
@@ -55,22 +58,34 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center flex-wrap gap-6 mt-4 lg:mt-0">
           <ul className="flex flex-wrap gap-6 text-sm sm:text-base">
             <li>
-              <a onClick={handleHomeRedirect} className="hover:text-secondary cursor-pointer">
+              <a
+                onClick={handleHomeRedirect}
+                className="hover:text-secondary cursor-pointer"
+              >
                 INICIO
               </a>
             </li>
             <li>
-              <a onClick={handleBrandRedirect} className="hover:text-secondary cursor-pointer">
+              <a
+                onClick={handleBrandRedirect}
+                className="hover:text-secondary cursor-pointer"
+              >
                 MARCAS
               </a>
             </li>
             <li>
-              <a onClick={handleFormRedirect} className="hover:text-secondary cursor-pointer">
+              <a
+                onClick={handleFormRedirect}
+                className="hover:text-secondary cursor-pointer"
+              >
                 SOLICITUD DE ALQUILER
               </a>
             </li>
             <li>
-              <a onClick={handleContactRedirect} className="hover:text-secondary cursor-pointer">
+              <a
+                onClick={handleContactRedirect}
+                className="hover:text-secondary cursor-pointer"
+              >
                 CONTÁCTANOS
               </a>
             </li>
@@ -100,16 +115,28 @@ export default function Navbar() {
         id="mobile-menu"
       >
         <div className="px-4 pb-4 space-y-2 bg-primary">
-          <a onClick={handleHomeRedirect} className="block hover:text-secondary cursor-pointer">
+          <a
+            onClick={handleHomeRedirect}
+            className="block hover:text-secondary cursor-pointer"
+          >
             INICIO
           </a>
-          <a onClick={handleBrandRedirect} className="block hover:text-secondary cursor-pointer">
+          <a
+            onClick={handleBrandRedirect}
+            className="block hover:text-secondary cursor-pointer"
+          >
             MARCAS
           </a>
-          <a onClick={handleFormRedirect} className="block hover:text-secondary cursor-pointer">
+          <a
+            onClick={handleFormRedirect}
+            className="block hover:text-secondary cursor-pointer"
+          >
             SOLICITUD DE ALQUILER
           </a>
-          <a onClick={handleContactRedirect} className="block hover:text-secondary cursor-pointer">
+          <a
+            onClick={handleContactRedirect}
+            className="block hover:text-secondary cursor-pointer"
+          >
             CONTÁCTANOS
           </a>
           <button
